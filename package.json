@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.5.0",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.0.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.1",
     "snyk": "^1.329.0"
   },
   "scripts": {
@@ -16,5 +19,17 @@
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
-  "snyk": true
+  "snyk": true,
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
