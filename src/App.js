@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Switch, Route } from 'react-router-dom';
-import AutContainer from './containers/authContainer';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Auth from './containers/Auth/Auth';
+import Index from './components/Index/index';
 
 class App extends Component {
   render() {
-
     let routes = (
-        <Switch>
-            <Route path="/" exact component={AutContainer}></Route>
-        </Switch>
-    )
-
-    return (
-      <div className="App">
-      {routes}
-      </div>
+      <Switch>
+        <Route path="/auth" component={Auth}></Route>
+        <Route path="/" exact component={Index}></Route>
+        <Redirect to="/" />
+      </Switch>
     );
+
+    return <div className="App">{routes}</div>;
   }
 }
 
