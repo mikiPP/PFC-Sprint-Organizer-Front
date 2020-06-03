@@ -7,6 +7,8 @@ import dashboard from '../../assets/dashboard.jpg';
 import productividad from '../../assets/productividad.png';
 import { Navbar, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { NavLink } from 'react-router-dom';
+import classes from './index.module.css';
 
 const index = (props) => (
   <Container className={clases.container}>
@@ -24,8 +26,16 @@ const index = (props) => (
       </Col>
       <Col>
         <div className={clases.authContainer}>
-          <h1>SignUp</h1>
-          <h1>Login</h1>
+          <NavLink to="/auth" exact>
+            <h1 data-text="SignUp" className={classes.navbarText}>
+              SignUp
+            </h1>
+          </NavLink>
+          <NavLink to={{ pathname: '/auth', hash: '#active' }} exact>
+            <h1 data-text="Login" className={classes.navbarText}>
+              Login
+            </h1>
+          </NavLink>
         </div>
       </Col>
     </Navbar>
@@ -105,12 +115,12 @@ const index = (props) => (
               </a>
             </li>
             <li>
-              <a href="https://es-es.facebook.com/">
+              <a href="https://www.linkedin.com/in/miguel-%C3%A1ngel-palao-palmer-a61486177/">
                 <i className="fab fa-linkedin-in"></i>
               </a>
             </li>
             <li>
-              <a href="https://es-es.facebook.com/">
+              <a href="https://www.instagram.com/">
                 <i className="fab fa-instagram"></i>
               </a>
             </li>

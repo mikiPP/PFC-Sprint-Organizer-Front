@@ -1,13 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
-
 .navbar {
   background-color: #0078bf !important;
   height: 150px;
-}
-
-h1 {
-  font-family: 'Oswald', sans-serif;
 }
 
 .logoContainer {
@@ -19,14 +12,30 @@ h1 {
   flex-direction: row;
   justify-content: space-evenly;
   margin-left: 35%;
-  color: white;
 }
 
-.container {
-  margin: 0 !important;
-  padding: 0 !important;
-  max-width: 100% !important;
+.authContainer a:hover {
+  text-decoration: none;
+}
+
+.navbarText {
+  color: #fff;
+  transition: 0.5s;
+}
+
+.navbarText::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: width 0.3s;
+}
+
+.navbarText:hover::after {
   width: 100%;
+  transition: width 0.3s;
+  text-decoration: none !important;
 }
 
 .imgPlusText {
@@ -48,7 +57,6 @@ h1 {
 
 .textContainer p {
   font-size: 2.5em;
-  font-family: 'Open Sans', sans-serif;
 }
 
 .first {
