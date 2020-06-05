@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import logo from '../../assets/logo.svg';
+import logoLetters from '../../assets/logoLetters.svg';
 import { Container } from 'react-bootstrap';
 import classes from './auth.module.css';
 import Loader from '../../components/Loader/loader';
@@ -233,7 +233,7 @@ class Auth extends Component {
           <div className={[classes.user, classes.logInBx].join(' ')}>
             <div className={classes.loginImgBx}>
               <Link to="/">
-                <img alt="logo" src={logo}></img>
+                <img alt="logo" src={logoLetters}></img>
               </Link>
             </div>
             <div className={classes.formBx}>
@@ -356,7 +356,7 @@ class Auth extends Component {
             </div>
             <div className={classes.imgBx}>
               <Link to="/">
-                <img alt="logo" src={logo}></img>
+                <img alt="logo" src={logoLetters}></img>
               </Link>
             </div>
           </div>
