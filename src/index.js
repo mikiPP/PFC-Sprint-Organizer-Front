@@ -11,6 +11,9 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
+Axios.defaults.headers.common['Authorization'] = sessionStorage.getItem(
+  'token',
+);
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

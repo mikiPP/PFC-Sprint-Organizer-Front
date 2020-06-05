@@ -4,3 +4,7 @@ export const updateObject = (oldObject, updatedProperties) => {
     ...updatedProperties,
   };
 };
+
+export const cleanObject = function (obj) {
+  Object.keys(obj).forEach((key) => obj[key] == null && delete obj[key]);
+};
