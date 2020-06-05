@@ -4,6 +4,7 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar/navbar';
 import Filters from '../../components/Filters/filters';
 import { cleanObject } from '../../store/utility';
+import Table from '../../components/Table/table';
 
 class Project extends Component {
   state = {
@@ -41,6 +42,7 @@ class Project extends Component {
       },
     },
     formIsValid: true,
+    projects: null,
   };
 
   /** First request get all the employees with role Scrum master and the second one
@@ -156,7 +158,9 @@ class Project extends Component {
 
     cleanObject(filter);
 
-    axios.post('project/filter', filter).then((result) => console.log(result));
+    axios
+      .post('project/filter', filter)
+      .then((result) => this.setState({ projects: result.data.projects }));
   };
 
   render() {
@@ -171,6 +175,11 @@ class Project extends Component {
           formValid={this.state.formIsValid}
           onSubmit={this.projectFilterHandler}
         ></Filters>
+        <Table
+          headers={['Name', 'Scrum Master', 'Product Owner']}
+          keys={['name', 'scrumMaster', 'productOwner']}
+          body={this.state.projects}
+        ></Table>
       </div>
     );
   }
