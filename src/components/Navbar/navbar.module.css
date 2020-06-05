@@ -6,7 +6,7 @@
 
 .navbar {
   background-color: #0078bf !important;
-  height: 150px;
+  height: 75px;
 }
 
 .logoContainer {
@@ -59,7 +59,7 @@
 
 .logoContainer ul {
   position: fixed;
-  top: 150px;
+  top: 75px;
   left: 0;
   margin: 0;
   padding: 50px 20px;
@@ -96,10 +96,6 @@
   color: #ffffff;
 }
 
-.displayNone {
-  display: none;
-}
-
 /* ------------------- Hamburguer clases ----------------------*/
 
 /*!
@@ -123,9 +119,9 @@
   border: 0;
   margin: 0;
   overflow: visible;
-  max-height: 50px;
+  max-height: 60px;
   position: relative;
-  top: 50px;
+  top: 10px;
   margin-right: 2%;
 }
 .hamburger:hover {

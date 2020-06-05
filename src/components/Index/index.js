@@ -12,16 +12,16 @@ import classes from './index.module.css';
 
 const index = (props) => (
   <Container className={clases.container}>
-    <Navbar className={clases.navbar}>
+    <Navbar fixed="top" className={clases.navbar}>
       <Col className={clases.logoContainer}>
         <Navbar.Brand href="/">
           <img
             alt=""
             src={logo}
-            width="150"
-            height="150"
+            width="70"
+            height="70"
             className="d-inline-block align-top"
-          />{' '}
+          />
         </Navbar.Brand>
       </Col>
       <Col>
@@ -40,9 +40,13 @@ const index = (props) => (
       </Col>
     </Navbar>
     <section className={clases.first}>
-      <Row>
+      <Row className={classes.firstContainer}>
         <Col>
-          <img alt="reunion" className={clases.imgPlusText} src={reunion} />
+          <img
+            alt="reunion"
+            className={[clases.imgPlusText, classes.firstImg].join(' ')}
+            src={reunion}
+          />
         </Col>
         <Col>
           <div className={clases.textContainer}>

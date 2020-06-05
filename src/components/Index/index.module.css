@@ -1,6 +1,6 @@
 .navbar {
   background-color: #0078bf !important;
-  height: 150px;
+  height: 75px;
 }
 
 .logoContainer {
@@ -59,8 +59,20 @@
   font-size: 2.5em;
 }
 
+.firstImg {
+  margin-top: 100px;
+}
+
 .first {
   color: #0078bf;
+  height: 100vh;
+}
+
+.firstContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .second {

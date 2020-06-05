@@ -49,17 +49,15 @@ const navbar = (props) => (
             <a href="#">Some text 4</a>
           </li>
         </ul>
-        <Link to="/">
-          <Navbar.Brand href="/">
-            <img
-              alt="logo"
-              src={logo}
-              width="150"
-              height="150"
-              className="d-inline-block align-top"
-            />
-          </Navbar.Brand>
-        </Link>
+        <Navbar.Brand to="/">
+          <img
+            alt="logo"
+            src={logo}
+            width="70"
+            height="70"
+            className="d-inline-block align-top"
+          />
+        </Navbar.Brand>
       </Col>
       <Col>
         <div className={classes.authContainer}>
