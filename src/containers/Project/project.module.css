@@ -2,3 +2,18 @@
   color: #007bfd;
   justify-content: center;
 }
+
+.addButton {
+  margin-right: 4%;
+  color: #dbe9ee;
+  background-color: #4f6d7a;
+  border-color: #dbe9ee;
+
+  transition: 0.5s;
+}
+
+.addButton:hover {
+  background-color: #dbe9ee;
+  border-color: #4f6d7a;
+  color: #4f6d7a;
+}

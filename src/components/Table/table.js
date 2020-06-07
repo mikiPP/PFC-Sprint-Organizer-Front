@@ -10,7 +10,7 @@ const table = (props) => {
     : null;
   const body = props.body
     ? props.body.map((element, index) => (
-        <tr key={element._id}>
+        <tr key={element._id} onClick={props.handleShow}>
           <TableRow
             element={element}
             keys={props.keys}

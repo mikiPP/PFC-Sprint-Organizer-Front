@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 
 import * as actions from '../../store/index';
 import Navbar from '../../components/Navbar/navbar';
 import Filters from '../../components/Filters/filters';
-import { cleanObject, listToMap } from '../../Utils/objectUtils';
+import { listToMap } from '../../Utils/objectUtils';
+import {
+  checkValidity,
+  inputChangedHandler,
+  projectFilterHandler,
+} from '../../Utils/componentUtils';
 import Table from '../../components/Table/table';
 import classes from './project.module.css';
 import Loader from '../../components/Loader/loader';
+import Modal from '../../components/Modal/modal';
 
 class Project extends Component {
   state = {
@@ -44,9 +51,70 @@ class Project extends Component {
         touched: false,
       },
     },
+    formModal: {
+      name: {
+        elementConfig: {
+          elementType: 'input',
+          type: 'text',
+          placeholder: ' Name',
+          label: 'Name',
+        },
+        validation: {
+          required: true,
+        },
+        value: undefined,
+        valid: false,
+        touched: false,
+      },
+      productOwner: {
+        elementConfig: {
+          elementType: 'select',
+          label: 'Product Owner',
+          options: [{ value: '', displayValue: 'Product Owner' }],
+        },
+        validation: {
+          required: true,
+        },
+        value: undefined,
+        valid: false,
+        touched: false,
+      },
+      scrumMaster: {
+        elementConfig: {
+          elementType: 'select',
+          label: 'ScrumMaster',
+          options: [{ value: '', displayValue: 'Scrum Master' }],
+        },
+        validation: {
+          required: true,
+        },
+        value: undefined,
+        valid: false,
+        touched: false,
+      },
+      companyId: {
+        elementConfig: {
+          elementType: 'select',
+          label: 'Company',
+          options: [
+            { value: '', displayValue: 'Company' },
+            { value: '5ec57bd6a31f661b2411e7fc', displayValue: 'companyTest' },
+          ],
+        },
+        validation: {
+          required: true,
+        },
+        value: '5ec57bd6a31f661b2411e7fc',
+        valid: false,
+        touched: false,
+      },
+    },
     formIsValid: true,
+    formModalIsValid: false,
     projects: null,
     idsNameMap: null,
+    show: false,
+    modalTitle: null,
   };
 
   /** First request get all the employees with role Scrum master and the second one
@@ -86,94 +154,45 @@ class Project extends Component {
           ...scrumMasterIds,
         ];
 
+        newState.formModal.productOwner.elementConfig.options = [
+          ...newState.formModal.productOwner.elementConfig.options,
+          ...productOwnerIds,
+        ];
+        newState.formModal.scrumMaster.elementConfig.options = [
+          ...newState.formModal.scrumMaster.elementConfig.options,
+          ...scrumMasterIds,
+        ];
+
         this.setState(newState);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
     // this will be handled by redux
   }
 
-  inputChangedHandler = (event, inputIdentifier) => {
-    const updatedForm = { ...this.state.form };
-    const updatedFormElement = {
-      ...updatedForm[inputIdentifier],
-    };
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidity(
-      updatedFormElement.value,
-      updatedFormElement.validation,
-    );
-    updatedFormElement.touched = true;
-    updatedForm[inputIdentifier] = updatedFormElement;
+  inputChangedHandlerForm = (
+    event,
+    inputIdentifier,
+    form,
+    formName,
+    formIsValidName,
+  ) => {
+    const result = inputChangedHandler(event, inputIdentifier, form);
 
-    let formIsValid = true;
+    const stateCloned = Object.assign(this.state, {});
+    stateCloned[formName] = result.form;
+    stateCloned[formIsValidName] = result.formIsValid;
 
-    for (let inputIdentifier in updatedForm) {
-      formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
-    }
-
-    this.setState({
-      form: updatedForm,
-      formIsValid: formIsValid,
-    });
+    this.setState(stateCloned);
   };
 
-  checkValidity(value, rules) {
-    let isValid = true;
+  handleClose = () => {
+    this.setState({ show: false });
+  };
 
-    if (!rules) {
-      return true;
-    }
-
-    if (rules.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    if (rules.isEmail) {
-      const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-      isValid = pattern.test(value) && isValid;
-    }
-
-    if (rules.isPassword) {
-      const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
-      isValid = pattern.test(value) && isValid;
-    }
-
-    if (rules.isPasswordConfirm) {
-      isValid = value === this.state.signUpForm.password.value && isValid;
-    }
-
-    if (rules.isNumeric) {
-      const pattern = /^\d+$/;
-      isValid = pattern.test(value) && isValid;
-    }
-
-    return isValid;
-  }
-
-  projectFilterHandler = (event) => {
-    event.preventDefault();
-
-    const filter = {};
-
-    for (let formElementIdentifier in this.state.form) {
-      if (this.state.form[formElementIdentifier].value !== '') {
-        filter[formElementIdentifier] = this.state.form[
-          formElementIdentifier
-        ].value;
-      }
-    }
-
-    cleanObject(filter);
-
-    this.props.fetchProjects(filter);
+  handleShow = (event) => {
+    const modalTitle =
+      event.target.tagName === 'BUTTON' ? 'Add project' : 'Edit project';
+    this.setState({ show: true, modalTitle });
   };
 
   render() {
@@ -185,13 +204,25 @@ class Project extends Component {
         </div>
         <Filters
           form={this.state.form}
-          inputChangedHandler={this.inputChangedHandler}
-          checkValidity={this.checkValidity}
+          callback={this.props.fetchProjects}
+          formName="form"
+          formIsValidName="formIsValid"
+          inputChangedHandler={this.inputChangedHandlerForm}
+          checkValidity={checkValidity}
           formValid={this.state.formIsValid}
-          onSubmit={this.projectFilterHandler}
+          onSubmit={projectFilterHandler}
           error={this.props.error}
           controlError={this.props.idsFetched}
+          submitButton={true}
         />
+        <Button
+          className={['btn btn-success float-right', classes.addButton].join(
+            ' ',
+          )}
+          onClick={this.handleShow}
+        >
+          Add new Project
+        </Button>
         <Table
           headers={['Name', 'Scrum Master', 'Product Owner']}
           keys={['name', 'scrumMaster', 'productOwner']}
@@ -200,7 +231,26 @@ class Project extends Component {
           error={this.props.error}
           controlError={this.props.idsFetched}
           idsNameMap={this.state.idsNameMap}
+          handleShow={this.handleShow}
         />
+
+        <Modal
+          show={this.state.show}
+          onHide={this.handleClose}
+          title={this.state.modalTitle}
+          form={this.state.formModal}
+          callback={this.props.createProject}
+          formName="formModal"
+          formIsValidName="formModalIsValid"
+          inputChangedHandler={this.inputChangedHandlerForm}
+          checkValidity={checkValidity}
+          formValid={this.state.formModalIsValid}
+          onSubmit={projectFilterHandler}
+          create={false}
+          variant="primary"
+          buttonText="Create project"
+          loading={this.props.spinner}
+        ></Modal>
       </div>
     );
 
@@ -229,6 +279,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchIds: () => dispatch(actions.fetchIds()),
     fetchProjects: (filter) => dispatch(actions.fetchProjects(filter)),
+    createProject: (project) => dispatch(actions.createProject(project)),
   };
 };
 

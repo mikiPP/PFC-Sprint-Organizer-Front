@@ -31,6 +31,7 @@ const reducer = (state = initialState, action) => {
         projects: null,
       });
     case actionTypes.FETCH_PROJECT_START:
+    case actionTypes.CREATE_PROJECT_START:
       return updateObject(state, { spinner: true, error: null });
     case actionTypes.FETCH_PROJECTS_SUCCESS:
       return updateObject(state, {
@@ -38,6 +39,8 @@ const reducer = (state = initialState, action) => {
         error: null,
         projects: action.projects,
       });
+    case actionTypes.CREATE_PROJECT_SUCCESS:
+      return updateObject(state, { spinner: false, error: null });
     default:
       return state;
   }

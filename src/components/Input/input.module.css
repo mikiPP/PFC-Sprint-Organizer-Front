@@ -32,6 +32,10 @@ input[type='date'] {
   -webkit-padding-start: 1px;
 }
 
+input[type='checkbox'] {
+  min-width: 40px;
+}
+
 ::placeholder {
   color: #0078bf;
   font-weight: 400;
