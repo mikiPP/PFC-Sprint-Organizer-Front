@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classes from './filters.module.css';
 import Input from '../Input/input';
-import Loader from '../Loader/loader';
 
 class Filters extends Component {
   render() {
@@ -34,18 +33,14 @@ class Filters extends Component {
       />
     ));
 
-    if (this.props.loading) {
-      form = <Loader />;
-    }
-
     let errorMessage = null;
 
-    if (this.props.error) {
-      errorMessage = <p>{this.props.error.message}</p>;
+    if (this.props.error && !this.props.controlError) {
+      errorMessage = <p className="mt-4 invalid">{this.props.error}</p>;
     }
 
     return (
-      <div className={classes.container}>
+      <div className={[classes.container, 'mt-4'].join(' ')}>
         <form onSubmit={this.props.onSubmit}>
           <div className={classes.displayGrid}>{form}</div>
           <input
@@ -53,8 +48,9 @@ class Filters extends Component {
             type="submit"
             name="submit"
             value="Filter"
-            className="btn btn-primary"
+            className="btn btn-primary mt-4"
           ></input>
+          {errorMessage}
         </form>
       </div>
     );

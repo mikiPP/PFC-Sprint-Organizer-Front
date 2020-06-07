@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 
+import * as actions from '../../store/index';
 import Navbar from '../../components/Navbar/navbar';
 import Filters from '../../components/Filters/filters';
-import { cleanObject } from '../../store/utility';
+import { cleanObject, listToMap } from '../../Utils/objectUtils';
 import Table from '../../components/Table/table';
+import classes from './project.module.css';
+import Loader from '../../components/Loader/loader';
 
 class Project extends Component {
   state = {
@@ -24,7 +27,7 @@ class Project extends Component {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Product Owner',
-          options: [{ value: '0', displayValue: 'Product Owner' }],
+          options: [{ value: '', displayValue: 'Product Owner' }],
         },
         value: undefined,
         valid: true,
@@ -34,7 +37,7 @@ class Project extends Component {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by ScrumMaster',
-          options: [{ value: '0', displayValue: 'Scrum Master' }],
+          options: [{ value: '', displayValue: 'Scrum Master' }],
         },
         value: undefined,
         valid: true,
@@ -43,6 +46,7 @@ class Project extends Component {
     },
     formIsValid: true,
     projects: null,
+    idsNameMap: null,
   };
 
   /** First request get all the employees with role Scrum master and the second one
@@ -50,33 +54,42 @@ class Project extends Component {
    */
 
   componentDidMount() {
-    Promise.all([
-      axios.post('/employee/filter', { roleId: '5eda8a75d9fd3e0004253c7d' }),
-      axios.post('/employee/filter', { roleId: '5eda8a88d9fd3e0004253c7e' }),
-    ]).then((result) => {
-      const scrumMasterIds = [
-        ...result[0].data.employees.map((element) => {
-          return { value: element._id, displayValue: element.name };
-        }),
-      ];
-      const productOwnerIds = [
-        ...result[1].data.employees.map((element) => {
-          return { value: element._id, displayValue: element.name };
-        }),
-      ];
+    this.props
+      .fetchIds()
+      .then((result) => {
+        const newState = Object.assign(this.state, {});
 
-      const newState = Object.assign(this.state, {});
-      newState.form.productOwner.elementConfig.options = [
-        ...newState.form.productOwner.elementConfig.options,
-        ...productOwnerIds,
-      ];
-      newState.form.scrumMaster.elementConfig.options = [
-        ...newState.form.scrumMaster.elementConfig.options,
-        ...scrumMasterIds,
-      ];
+        const scrumMasterIds = [
+          ...result[0].data.employees.map((element) => {
+            return { value: element._id, displayValue: element.name };
+          }),
+        ];
 
-      this.setState(newState);
-    });
+        const scrumMasterMap = listToMap(scrumMasterIds);
+
+        const productOwnerIds = [
+          ...result[1].data.employees.map((element) => {
+            return { value: element._id, displayValue: element.name };
+          }),
+        ];
+
+        const productOwnerMap = listToMap(productOwnerIds);
+
+        newState.idsNameMap = new Map([...scrumMasterMap, ...productOwnerMap]);
+
+        newState.form.productOwner.elementConfig.options = [
+          ...newState.form.productOwner.elementConfig.options,
+          ...productOwnerIds,
+        ];
+        newState.form.scrumMaster.elementConfig.options = [
+          ...newState.form.scrumMaster.elementConfig.options,
+          ...scrumMasterIds,
+        ];
+
+        this.setState(newState);
+      })
+      .catch((err) => console.log(err));
+    // this will be handled by redux
   }
 
   inputChangedHandler = (event, inputIdentifier) => {
@@ -151,38 +164,72 @@ class Project extends Component {
     const filter = {};
 
     for (let formElementIdentifier in this.state.form) {
-      filter[formElementIdentifier] = this.state.form[
-        formElementIdentifier
-      ].value;
+      if (this.state.form[formElementIdentifier].value !== '') {
+        filter[formElementIdentifier] = this.state.form[
+          formElementIdentifier
+        ].value;
+      }
     }
 
     cleanObject(filter);
 
-    axios
-      .post('project/filter', filter)
-      .then((result) => this.setState({ projects: result.data.projects }));
+    this.props.fetchProjects(filter);
   };
 
   render() {
-    return (
+    let projectContainer = (
       <div>
         <Navbar />
-
+        <div className={[classes.title, 'mt-4'].join(' ')}>
+          <h1>Projects</h1>
+        </div>
         <Filters
           form={this.state.form}
           inputChangedHandler={this.inputChangedHandler}
           checkValidity={this.checkValidity}
           formValid={this.state.formIsValid}
           onSubmit={this.projectFilterHandler}
-        ></Filters>
+          error={this.props.error}
+          controlError={this.props.idsFetched}
+        />
         <Table
           headers={['Name', 'Scrum Master', 'Product Owner']}
           keys={['name', 'scrumMaster', 'productOwner']}
-          body={this.state.projects}
-        ></Table>
+          body={this.props.projects}
+          loading={this.props.spinner}
+          error={this.props.error}
+          controlError={this.props.idsFetched}
+          idsNameMap={this.state.idsNameMap}
+        />
       </div>
     );
+
+    if (this.props.loading) {
+      projectContainer = (
+        <div>
+          <Loader />
+        </div>
+      );
+    }
+    return projectContainer;
   }
 }
 
-export default Project;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.project.fetching,
+    spinner: state.project.spinner,
+    idsFetched: state.project.idsFetched,
+    projects: state.project.projects,
+    error: state.project.error,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchIds: () => dispatch(actions.fetchIds()),
+    fetchProjects: (filter) => dispatch(actions.fetchProjects(filter)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Project);

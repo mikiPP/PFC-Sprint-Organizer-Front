@@ -1,18 +1,20 @@
 .container {
-  background-color: #0078bf;
-  color: #fff;
+  color: #0078bf;
   height: auto;
   margin: 0 4%;
   padding: 15px;
-  border: solid 4px black;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+.title {
+  display: block;
 }
 
 .displayGrid {
   display: grid;
   grid-template-columns: repeat(3, auto);
-  grid-gap: 1em;
+  grid-gap: 5em;
 }
 
 input[type='submit']:disabled {
@@ -25,4 +27,5 @@ input[type='submit']:disabled {
 input[type='submit'] {
   background-color: #fff;
   color: #0078bf;
+  border: solid 2px #0078bf;
 }

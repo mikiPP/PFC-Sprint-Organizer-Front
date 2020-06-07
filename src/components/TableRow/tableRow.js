@@ -2,8 +2,14 @@ import React from 'react';
 
 const tableRow = (props) => {
   return props.keys.map((key) => {
-    console.log(props.element);
-    return <th>{props.element[key]}</th>;
+    //If the value is one id, gets the name of this object
+    return (
+      <td>
+        {!/^[a-f\d]{24}$/i.test(props.element[key])
+          ? props.element[key]
+          : props.idsNameMap.get(props.element[key])}
+      </td>
+    );
   });
 };
 
