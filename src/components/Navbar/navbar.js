@@ -1,13 +1,13 @@
 import React from 'react';
 import classes from './navbar.module.css';
-import { Navbar, Container, Row, Col, NavDropdown } from 'react-bootstrap';
+import { Navbar, Container, Col, NavDropdown } from 'react-bootstrap';
 import logo from '../../assets/logo.svg';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 const icon = (
-  <h1>
+  <h3>
     {sessionStorage.getItem('name')} <i className="fas fa-user"></i>
-  </h1>
+  </h3>
 );
 
 const navbar = (props) => (
@@ -37,7 +37,7 @@ const navbar = (props) => (
         </button>
         <ul>
           <li>
-            <a href="#">Some text 1</a>
+            <NavLink to="/project"> Project </NavLink>
           </li>
           <li>
             <a href="#">Some Text 2</a>
@@ -49,15 +49,17 @@ const navbar = (props) => (
             <a href="#">Some text 4</a>
           </li>
         </ul>
-        <Navbar.Brand to="/">
-          <img
-            alt="logo"
-            src={logo}
-            width="70"
-            height="70"
-            className="d-inline-block align-top"
-          />
-        </Navbar.Brand>
+        <Link to="/">
+          <Navbar.Brand>
+            <img
+              alt="logo"
+              src={logo}
+              width="70"
+              height="70"
+              className="d-inline-block align-top"
+            />
+          </Navbar.Brand>
+        </Link>
       </Col>
       <Col>
         <div className={classes.authContainer}>
@@ -78,7 +80,7 @@ const navbar = (props) => (
             >
               <div>
                 <span>
-                  <i class="fas fa-power-off"></i> Logout
+                  <i className="fas fa-power-off"></i> Logout
                 </span>
               </div>
             </NavDropdown.Item>

@@ -12,8 +12,9 @@
 
 .InputElement {
   outline: none;
-  border: 2px solid black;
-  background-color: white;
+  background-color: #dbe9ee;
+  border: 2px solid #0078bf;
+  color: #0078bf;
   font: inherit;
   padding: 6px 10px;
   display: block;
@@ -29,4 +30,9 @@ input[type='date'] {
   overflow: hidden;
   padding: 0;
   -webkit-padding-start: 1px;
+}
+
+::placeholder {
+  color: #0078bf;
+  font-weight: 400;
 }

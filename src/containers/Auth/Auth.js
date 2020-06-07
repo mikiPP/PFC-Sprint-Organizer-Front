@@ -196,18 +196,14 @@ class Auth extends Component {
     let errorMessageSignUp = null;
     if (this.props.errorMessage && !this.props.loginFailed) {
       errorMessageSignUp = (
-        <div className={classes.danger}>
-          <p> {this.props.errorMessage} </p>
-        </div>
+        <p className="invalid"> {this.props.errorMessage} </p>
       );
     }
 
     let errorMessageLogin = null;
     if (this.props.errorMessage && this.props.loginFailed) {
       errorMessageLogin = (
-        <div className={classes.danger}>
-          <p> {this.props.errorMessage} </p>
-        </div>
+        <p className="invalid"> {this.props.errorMessage} </p>
       );
     }
 
@@ -374,9 +370,9 @@ class Auth extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.loading,
-    errorMessage: state.error,
-    loginFailed: state.loginFailed,
+    loading: state.auth.loading,
+    errorMessage: state.auth.error,
+    loginFailed: state.auth.loginFailed,
   };
 };
 

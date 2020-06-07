@@ -7,22 +7,25 @@ import dashboard from '../../assets/dashboard.jpg';
 import productividad from '../../assets/productividad.png';
 import { Navbar, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import classes from './index.module.css';
 
 const index = (props) => (
   <Container className={clases.container}>
     <Navbar fixed="top" className={clases.navbar}>
       <Col className={clases.logoContainer}>
-        <Navbar.Brand href="/">
-          <img
-            alt=""
-            src={logo}
-            width="70"
-            height="70"
-            className="d-inline-block align-top"
-          />
-        </Navbar.Brand>
+        <Link to="/">
+          <Navbar.Brand>
+            <img
+              alt=""
+              src={logo}
+              width="70"
+              height="70"
+              className="d-inline-block align-top"
+            />
+          </Navbar.Brand>
+        </Link>
+        <h1>Sprint Organizer</h1>
       </Col>
       <Col>
         <div className={clases.authContainer}>

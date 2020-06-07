@@ -1,12 +1,10 @@
 /* ------------- Navbar --------------------- */
 
-.container {
-  height: 200px;
-}
-
 .navbar {
   background-color: #0078bf !important;
   height: 75px;
+  display: flex;
+  align-items: center;
 }
 
 .logoContainer {
@@ -15,9 +13,7 @@
 
 .authContainer {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin-left: 35%;
+  justify-content: flex-end;
 }
 
 .authContainer a {

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import classes from './input.module.css';
-import 'react-day-picker/lib/style.css';
 
 const input = (props) => {
   let inputElement = null;
