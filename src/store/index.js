@@ -1,1 +1,2 @@
-export { auth, signUp } from './action';
+export { auth, signUp } from './actions/authAction';
+export { fetchIds, fetchProjects } from './actions/projectAction';
