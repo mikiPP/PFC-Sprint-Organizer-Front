@@ -27,7 +27,7 @@
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
-  "snyk": true,
+  "snyk": false,
   "browserslist": {
     "production": [
       ">0.2%",
