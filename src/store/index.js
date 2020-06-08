@@ -3,4 +3,7 @@ export {
   fetchIds,
   fetchProjects,
   createProject,
+  fetchProjectById,
+  deleteProject,
+  updateProject,
 } from './actions/projectAction';

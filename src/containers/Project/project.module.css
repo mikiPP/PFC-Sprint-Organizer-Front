@@ -17,3 +17,9 @@
   border-color: #4f6d7a;
   color: #4f6d7a;
 }
+
+.addButton:focus {
+  background-color: #dbe9ee;
+  border-color: #4f6d7a;
+  color: #4f6d7a;
+}

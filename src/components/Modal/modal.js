@@ -4,7 +4,6 @@ import { Button, Spinner } from 'react-bootstrap';
 
 import Filters from '../Filters/filters';
 import classes from './modal.module.css';
-import { projectFilterHandler } from '../../Utils/componentUtils';
 
 const modal = (props) => {
   return (
@@ -15,7 +14,7 @@ const modal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {props.loading ? (
+        {props.loading || props.fetchingProject ? (
           <Spinner
             className="mt-4"
             animation="border"
@@ -37,16 +36,23 @@ const modal = (props) => {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.handleClose}>
-          Close
-        </Button>
+        {!props.creating ? (
+          <Button variant="danger" onClick={props.deleteFunction}>
+            <i className="fas fa-trash"></i> Delete
+          </Button>
+        ) : null}
         <Button
-          variant={props.variant}
-          onClick={(event) =>
-            projectFilterHandler(event, props.form, props.callback)
-          }
+          className={classes.Button}
+          onClick={(event) => {
+            return props.callback(event);
+          }}
           disabled={!props.formValid}
         >
+          {props.buttonText.includes('Create') ? (
+            <i className="fas fa-plus"></i>
+          ) : (
+            <i className="fas fa-pencil-alt"></i>
+          )}
           {props.buttonText}
         </Button>
       </Modal.Footer>

@@ -6,15 +6,16 @@ import { Spinner } from 'react-bootstrap';
 
 const table = (props) => {
   const headers = props.body
-    ? props.headers.map((element) => <th>{element}</th>)
+    ? props.headers.map((element) => <th key={element}>{element}</th>)
     : null;
   const body = props.body
-    ? props.body.map((element, index) => (
-        <tr key={element._id} onClick={props.handleShow}>
+    ? props.body.map((element) => (
+        <tr id={element._id} key={element._id} onClick={props.openProject}>
           <TableRow
             element={element}
             keys={props.keys}
             idsNameMap={props.idsNameMap}
+            key={element._id}
           ></TableRow>
         </tr>
       ))

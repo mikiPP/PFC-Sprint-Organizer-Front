@@ -66,7 +66,7 @@ export const inputChangedHandler = (event, inputIdentifier, form) => {
   };
 };
 
-export const projectFilterHandler = (event, form, callback) => {
+export const projectFilterHandler = (event, form, callback, id) => {
   event.preventDefault();
 
   const filter = {};
@@ -79,5 +79,8 @@ export const projectFilterHandler = (event, form, callback) => {
 
   cleanObject(filter);
 
-  callback(filter);
+  if (id) {
+    return callback(filter, id);
+  }
+  return callback(filter);
 };

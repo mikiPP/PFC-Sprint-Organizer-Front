@@ -86,7 +86,42 @@ export const createProject = (project) => {
     dispatch(createProjectStart());
     return axios
       .post('project/', project)
-      .then((result) => dispatch(fetchProjectsSuccessfull()))
+      .then((result) => dispatch(createProjectSuccess(result.data.Project)))
+      .catch((err) => {
+        console.log(err);
+        return dispatch(
+          fetchFail(
+            err.response.data.message
+              ? err.response.data.message
+              : err.response.statusText,
+          ),
+        );
+      });
+  };
+};
+
+export const createProjectStart = () => {
+  return {
+    type: actionTypes.CREATE_PROJECT_START,
+  };
+};
+
+export const createProjectSuccess = (project) => {
+  return {
+    type: actionTypes.CREATE_PROJECT_SUCCESS,
+    project,
+  };
+};
+
+export const fetchProjectById = (id) => {
+  return (dispatch) => {
+    dispatch(fetchProjectByIdStart());
+    return axios
+      .get(`project/${id}`)
+      .then((result) => {
+        dispatch(fetchProjectByIdSuccess(result.data.project));
+        return new Promise((resolve) => resolve(result.data.project));
+      })
       .catch((err) =>
         dispatch(
           fetchFail(
@@ -99,14 +134,84 @@ export const createProject = (project) => {
   };
 };
 
-export const createProjectStart = () => {
+export const fetchProjectByIdStart = () => {
   return {
-    type: actionTypes.CREATE_PROJECT_START,
+    type: actionTypes.FETCH_PROJECT_BY_ID_START,
   };
 };
 
-export const createProjectSuccess = () => {
+export const fetchProjectByIdSuccess = (project) => {
   return {
-    type: actionTypes.CREATE_PROJECT_SUCCESS,
+    type: actionTypes.FETCH_PROJECT_BY_ID_SUCCESS,
+    project,
+  };
+};
+
+export const deleteProject = (id) => {
+  return (dispatch) => {
+    dispatch(deleteProjectStart());
+
+    return axios
+      .delete(`project/${id}`)
+      .then(
+        (result) =>
+          new Promise((resolve) => resolve(dispatch(deleteProjectSuccess(id)))),
+      )
+      .catch((err) =>
+        dispatch(
+          fetchFail(
+            err.response.statusText
+              ? err.response.statusText
+              : err.response.data.message,
+          ),
+        ),
+      );
+  };
+};
+
+export const deleteProjectStart = () => {
+  return {
+    type: actionTypes.DELETE_PROJECT_START,
+  };
+};
+
+export const deleteProjectSuccess = (id) => {
+  return {
+    type: actionTypes.DELETE_PROJECT,
+    id,
+  };
+};
+
+export const updateProject = (project, id) => {
+  return (dispatch) => {
+    dispatch(updateProjectStart());
+    return axios
+      .put(`project/${id}`, project)
+      .then((result) => {
+        console.log(result);
+        return dispatch(updateProjectSuccess(result.data.project));
+      })
+      .catch((err) =>
+        dispatch(
+          fetchFail(
+            err.response.statusText
+              ? err.response.statusText
+              : err.response.data.message,
+          ),
+        ),
+      );
+  };
+};
+
+export const updateProjectStart = () => {
+  return {
+    type: actionTypes.UPDATE_PROJECT_START,
+  };
+};
+
+export const updateProjectSuccess = (project) => {
+  return {
+    type: actionTypes.UPDATE_PROJECT,
+    project,
   };
 };

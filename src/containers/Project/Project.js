@@ -62,7 +62,7 @@ class Project extends Component {
         validation: {
           required: true,
         },
-        value: undefined,
+        value: '',
         valid: false,
         touched: false,
       },
@@ -105,7 +105,7 @@ class Project extends Component {
           required: true,
         },
         value: '5ec57bd6a31f661b2411e7fc',
-        valid: false,
+        valid: true,
         touched: false,
       },
     },
@@ -115,6 +115,9 @@ class Project extends Component {
     idsNameMap: null,
     show: false,
     modalTitle: null,
+    creating: null,
+    modalButtonText: '',
+    callback: null,
   };
 
   /** First request get all the employees with role Scrum master and the second one
@@ -190,9 +193,76 @@ class Project extends Component {
   };
 
   handleShow = (event) => {
-    const modalTitle =
-      event.target.tagName === 'BUTTON' ? 'Add project' : 'Edit project';
-    this.setState({ show: true, modalTitle });
+    let modalTitle;
+    let modalButtonText;
+    let creating;
+    let callback;
+
+    if (event.target.tagName === 'BUTTON') {
+      modalTitle = 'Add project';
+      modalButtonText = 'Create project';
+      creating = true;
+      callback = this.createProject;
+    } else {
+      modalTitle = 'Edit project';
+      modalButtonText = 'Edit project';
+      creating = false;
+      callback = this.updateProject;
+    }
+    this.setState({
+      show: true,
+      modalTitle,
+      modalButtonText,
+      creating,
+      callback,
+    });
+  };
+
+  openProject = (event) => {
+    this.handleShow(event);
+    this.props
+      .fetchProjectById(event.target.closest('tr').id)
+      .then((formValues) =>
+        this.updateForm(this.state.formModal, 'formModal', formValues),
+      );
+  };
+
+  updateForm = (form, formName, formValues) => {
+    const stateCloned = Object.assign(this.state, {});
+
+    Object.keys(form).forEach((key) => {
+      stateCloned[formName][key].value = formValues[key];
+      stateCloned[formName][key].valid = true;
+    });
+
+    stateCloned[`${formName}IsValid`] = true;
+    stateCloned.creating = false;
+
+    this.setState(stateCloned);
+  };
+
+  deleteProject = () => {
+    this.props
+      .deleteProject(this.props.project._id)
+      .then(() => this.handleClose());
+  };
+
+  createProject = (event) => {
+    return projectFilterHandler(
+      event,
+      this.state.formModal,
+      this.props.createProject,
+      false,
+    );
+  };
+
+  updateProject = (event) => {
+    return projectFilterHandler(
+      event,
+      this.state.formModal,
+      this.props.updateProject,
+      this.props.project._id,
+    );
   };
 
   render() {
@@ -231,7 +301,7 @@ class Project extends Component {
           error={this.props.error}
           controlError={this.props.idsFetched}
           idsNameMap={this.state.idsNameMap}
-          handleShow={this.handleShow}
+          openProject={this.openProject}
         />
 
         <Modal
@@ -239,17 +309,18 @@ class Project extends Component {
           onHide={this.handleClose}
           title={this.state.modalTitle}
           form={this.state.formModal}
-          callback={this.props.createProject}
+          callback={this.state.callback}
           formName="formModal"
           formIsValidName="formModalIsValid"
           inputChangedHandler={this.inputChangedHandlerForm}
           checkValidity={checkValidity}
           formValid={this.state.formModalIsValid}
           onSubmit={projectFilterHandler}
-          create={false}
-          variant="primary"
-          buttonText="Create project"
+          buttonText={this.state.modalButtonText}
+          creating={this.state.creating}
           loading={this.props.spinner}
+          fetchingProject={this.props.fetchingProject}
+          deleteFunction={this.deleteProject}
         ></Modal>
       </div>
     );
@@ -271,7 +342,9 @@ const mapStateToProps = (state) => {
     spinner: state.project.spinner,
     idsFetched: state.project.idsFetched,
     projects: state.project.projects,
+    project: state.project.project,
     error: state.project.error,
+    fetchProject: state.project.fetchingProject,
   };
 };
 
@@ -280,6 +353,10 @@ const mapDispatchToProps = (dispatch) => {
     fetchIds: () => dispatch(actions.fetchIds()),
     fetchProjects: (filter) => dispatch(actions.fetchProjects(filter)),
     createProject: (project) => dispatch(actions.createProject(project)),
+    fetchProjectById: (id) => dispatch(actions.fetchProjectById(id)),
+    deleteProject: (id) => dispatch(actions.deleteProject(id)),
+    updateProject: (project, id) =>
+      dispatch(actions.updateProject(project, id)),
   };
 };
 
