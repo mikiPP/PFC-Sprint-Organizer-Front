@@ -1,0 +1,42 @@
+.Input {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.Label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  width: 300px;
+}
+
+.InputElement {
+  outline: none;
+  background-color: #dbe9ee;
+  border: 2px solid #0078bf;
+  color: #0078bf;
+  font: inherit;
+  padding: 6px 10px;
+  display: block;
+  box-sizing: border-box;
+  max-width: 300px;
+  min-width: 300px;
+  min-height: 40px;
+}
+
+input[type='date'] {
+  -webkit-align-items: center;
+  display: -webkit-inline-flex;
+  overflow: hidden;
+  padding: 0;
+  -webkit-padding-start: 1px;
+}
+
+input[type='checkbox'] {
+  min-width: 40px;
+}
+
+::placeholder {
+  color: #0078bf;
+  font-weight: 400;
+}

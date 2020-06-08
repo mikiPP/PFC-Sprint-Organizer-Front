@@ -1,0 +1,200 @@
+.container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: #c0d6df;
+}
+
+.divContainer {
+  position: relative;
+  width: 800px;
+  height: 500px;
+  background: #fff;
+  border: black solid 4px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.divContainer .user {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.divContainer .user .imgBx {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  background: #0078bf;
+  transition: 0.5s;
+}
+
+.divContainer .user .imgBx img {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.divContainer .user .loginImgBx {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  background: #4f6d7a;
+  transition: 0.5s;
+}
+
+.divContainer .user .loginImgBx img {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.divContainer .user .formBx {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  transition: 0.5s;
+}
+
+.divContainer .user .formBx form h1 {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 10px;
+  color: #4f6d7a;
+}
+
+.divContainer .user .formBx form input {
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  background: #dbe9ee;
+  color: #4f6d7a;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  margin: 8px 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.divContainer .user .formBx form input[type='submit'] {
+  max-width: 100px;
+  background: #0078bf;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: solid black 4px;
+  transition: 0.5s;
+}
+
+.divContainer .user .formBx form .authMessage {
+  position: relative;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #4f6d7a;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.divContainer .user .formBx form .authMessage span {
+  color: #0078bf;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.divContainer .user .formBx form .authMessage span:hover {
+  color: #4f6d7a;
+}
+.divContainer .logInBx {
+  pointer-events: none;
+}
+.divContainer.active .logInBx {
+  pointer-events: initial;
+}
+
+.divContainer .signUpBx {
+  pointer-events: initial;
+}
+.divContainer.active .signUpBx {
+  pointer-events: none;
+}
+
+.divContainer .signUpBx .formBx {
+  left: 0;
+}
+
+.divContainer.active .signUpBx .formBx {
+  left: 100%;
+}
+
+.divContainer .signUpBx .imgBx {
+  left: 0;
+}
+.divContainer.active .signUpBx .imgBx {
+  left: -100%;
+}
+
+.divContainer .logInBx .formBx {
+  left: -100%;
+}
+
+.divContainer.active .logInBx .formBx {
+  left: 0%;
+}
+
+.divContainer .logInBx .imgBx {
+  left: 100%;
+}
+.divContainer.active .logInBx .imgBx {
+  left: 0;
+}
+
+.divContainer .user .formBx form input[type='submit']:disabled {
+  cursor: not-allowed;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 2px solid #721c24;
+}
+
+@media (max-width: 991px) {
+  .divContainer {
+    max-width: 400px;
+  }
+
+  .divContainer .imgBx {
+    display: none;
+  }
+  .divContainer .user .formBx {
+    width: 100%;
+  }
+}
+
+.danger {
+  color: #721c24;
+  margin-bottom: 2%;
+  max-height: 30px;
+}

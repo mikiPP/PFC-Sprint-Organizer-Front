@@ -1,0 +1,32 @@
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0078bd;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+.Button {
+  color: #dbe9ee !important;
+  background-color: #4f6d7a !important;
+  border-color: #dbe9ee !important;
+
+  transition: 0.5s;
+}
+
+.Button:hover {
+  background-color: #dbe9ee !important;
+  border-color: #4f6d7a !important;
+  color: #4f6d7a !important;
+}
+.Button:focus {
+  background-color: #dbe9ee !important;
+  border-color: #4f6d7a !important;
+  color: #4f6d7a !important;
+}
+
+.Button i {
+  margin-right: 5px;
+}
