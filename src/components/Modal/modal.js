@@ -6,6 +6,7 @@ import Filters from '../Filters/filters';
 import classes from './modal.module.css';
 
 const modal = (props) => {
+  console.log(props);
   return (
     <Modal show={props.show} onHide={props.onHide}>
       <Modal.Header className={classes.title} closeButton>

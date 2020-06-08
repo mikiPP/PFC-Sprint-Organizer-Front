@@ -344,7 +344,7 @@ const mapStateToProps = (state) => {
     projects: state.project.projects,
     project: state.project.project,
     error: state.project.error,
-    fetchProject: state.project.fetchingProject,
+    fetchingProject: state.project.fetchingProject,
   };
 };
 

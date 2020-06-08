@@ -24,13 +24,10 @@ const updateProject = (state, action) => {
   const projects = [...state.projects].filter(
     (element) => element._id !== state.project._id,
   );
-
-  console.log(projects);
   projects.push(action.project);
 
   return updateObject(state, {
     projects,
-    project: null,
     fetchingProject: false,
   });
 };

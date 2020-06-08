@@ -188,7 +188,6 @@ export const updateProject = (project, id) => {
     return axios
       .put(`project/${id}`, project)
       .then((result) => {
-        console.log(result);
         return dispatch(updateProjectSuccess(result.data.project));
       })
       .catch((err) =>
