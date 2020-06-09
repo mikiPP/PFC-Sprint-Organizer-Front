@@ -21,12 +21,17 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+<<<<<<< Updated upstream
     "test": "react-scripts test --env=jsdom",
+=======
+>>>>>>> Stashed changes
     "eject": "react-scripts eject",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "snyk-protect": "npm run react-scripts build"
   },
+<<<<<<< Updated upstream
   "snyk": true,
+=======
+>>>>>>> Stashed changes
   "browserslist": {
     "production": [
       ">0.2%",
