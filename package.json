@@ -19,7 +19,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts build",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "snyk-protect": "npm run react-scripts build"
