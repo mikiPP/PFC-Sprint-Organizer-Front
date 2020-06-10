@@ -1,7 +1,7 @@
 {
   "name": "spring-organizer",
   "version": "0.1.0",
-  "homepage": "./",
+  "homepage": "https://sprint-organizer.herokuapp.com/",
   "engines": {
     "node": "12.x"
   },
