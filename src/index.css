@@ -1,3 +1,5 @@
+/*---- ALL PAGES CSS -----*/
+
 @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
 
@@ -40,4 +42,32 @@ h6 {
   display: flex !important;
   flex-direction: column;
   align-items: center;
+}
+
+/*------- Logged css ----- */
+
+.title {
+  color: #007bfd;
+  justify-content: center;
+}
+
+.addButton {
+  margin-right: 4%;
+  color: #dbe9ee !important;
+  background-color: #4f6d7a !important;
+  border-color: #dbe9ee !important;
+
+  transition: 0.5s;
+}
+
+.addButton:hover {
+  background-color: #dbe9ee !important;
+  border-color: #4f6d7a !important;
+  color: #4f6d7a !important;
+}
+
+.addButton:focus {
+  background-color: #dbe9ee !important;
+  border-color: #4f6d7a !important;
+  color: #4f6d7a !important;
 }

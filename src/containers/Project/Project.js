@@ -12,7 +12,6 @@ import {
   projectFilterHandler,
 } from '../../Utils/componentUtils';
 import Table from '../../components/Table/table';
-import classes from './project.module.css';
 import Loader from '../../components/Loader/loader';
 import Modal from '../../components/Modal/modal';
 
@@ -269,7 +268,7 @@ class Project extends Component {
     let projectContainer = (
       <div>
         <Navbar />
-        <div className={[classes.title, 'mt-4'].join(' ')}>
+        <div className="title mt-4">
           <h1>Projects</h1>
         </div>
         <Filters
@@ -285,12 +284,7 @@ class Project extends Component {
           controlError={this.props.idsFetched}
           submitButton={true}
         />
-        <Button
-          className={['btn btn-success float-right', classes.addButton].join(
-            ' ',
-          )}
-          onClick={this.handleShow}
-        >
+        <Button className="btn float-right addButton" onClick={this.handleShow}>
           Add new Project
         </Button>
         <Table
