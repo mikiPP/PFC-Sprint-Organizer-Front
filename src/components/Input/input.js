@@ -19,6 +19,13 @@ const input = (props) => {
           value={props.value}
           onChange={props.changed}
           placeholder={props.placeholder}
+          checked={
+            props.type === 'checkbox'
+              ? props.value === true
+                ? true
+                : null
+              : null
+          }
         />
       );
       break;

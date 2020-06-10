@@ -7,3 +7,11 @@ export {
   deleteProject,
   updateProject,
 } from './actions/projectAction';
+export {
+  fetchFormTaskIds,
+  fetchTasks,
+  createTask,
+  fetchTaskById,
+  deleteTask,
+  updateTask,
+} from './actions/taskAction';

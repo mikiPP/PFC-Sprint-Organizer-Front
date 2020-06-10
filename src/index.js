@@ -6,6 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import Axios from 'axios';
 import authReducer from './store/reducers/authReducer';
+import taskReducer from './store/reducers/taskReducer';
 import projectReducer from './store/reducers/projectReducer';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
@@ -19,6 +20,7 @@ Axios.defaults.headers.common['Authorization'] = sessionStorage.getItem(
 const rootReducer = combineReducers({
   auth: authReducer,
   project: projectReducer,
+  task: taskReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -31,7 +33,7 @@ const store = createStore(
 const app = (
   <Provider store={store}>
     <BrowserRouter>
-      <App/>
+      <App />
     </BrowserRouter>
   </Provider>
 );

@@ -46,13 +46,19 @@ export const inputChangedHandler = (event, inputIdentifier, form) => {
   const updatedFormElement = {
     ...updatedForm[inputIdentifier],
   };
+
   updatedFormElement.value = event.target.value;
   updatedFormElement.valid = checkValidity(
     updatedFormElement.value,
     updatedFormElement.validation,
   );
+
   updatedFormElement.touched = true;
   updatedForm[inputIdentifier] = updatedFormElement;
+
+  if (event.target.type === 'checkbox') {
+    updatedForm[inputIdentifier].value = event.target.checked;
+  }
 
   let formIsValid = true;
 
@@ -66,12 +72,15 @@ export const inputChangedHandler = (event, inputIdentifier, form) => {
   };
 };
 
-export const projectFilterHandler = (event, form, callback, id) => {
+export const filterHandler = (event, form, callback, id) => {
   event.preventDefault();
 
   const filter = {};
 
   for (let formElementIdentifier in form) {
+    if (form[formElementIdentifier].elementConfig.type === 'checkbox') {
+      filter[formElementIdentifier] = true;
+    }
     if (form[formElementIdentifier].value !== '') {
       filter[formElementIdentifier] = form[formElementIdentifier].value;
     }
