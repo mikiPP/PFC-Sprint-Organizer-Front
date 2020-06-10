@@ -3,7 +3,6 @@ import { updateObject } from '../../Utils/objectUtils';
 
 const initialState = {
   userId: null,
-  userLoged: false,
   companyId: null,
   name: null,
   error: null,

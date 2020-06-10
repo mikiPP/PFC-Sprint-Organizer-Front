@@ -364,8 +364,8 @@ class Auth extends Component {
       form = <Loader />;
     }
 
-    if(this.props.userLoged) {
-      form = <Redirect to="project"></Redirect>
+    if (sessionStorage.getItem('logged')) {
+      form = <Redirect to="project"></Redirect>;
     }
 
     return <div> {form} </div>;
@@ -377,7 +377,6 @@ const mapStateToProps = (state) => {
     loading: state.auth.loading,
     errorMessage: state.auth.error,
     loginFailed: state.auth.loginFailed,
-    userLoged:state.auth.userLoged
   };
 };
 

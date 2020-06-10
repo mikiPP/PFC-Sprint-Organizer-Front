@@ -76,7 +76,6 @@ function decodeToken(token) {
     delete result.exp;
 
     result.loading = false;
-    result.userLoged = true;
 
     return result;
   } catch (e) {
@@ -89,4 +88,5 @@ function addDataToLocalStorage(data, token) {
   sessionStorage.setItem('userId', data.userId);
   sessionStorage.setItem('companyId', data.companyId);
   sessionStorage.setItem('name', data.name);
+  sessionStorage.setItem('logged', true);
 }
