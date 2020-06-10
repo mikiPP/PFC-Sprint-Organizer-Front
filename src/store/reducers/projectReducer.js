@@ -28,7 +28,7 @@ const updateProject = (state, action) => {
 
   return updateObject(state, {
     projects,
-    project: null,
+    project: action.project,
     fetchingProject: false,
   });
 };

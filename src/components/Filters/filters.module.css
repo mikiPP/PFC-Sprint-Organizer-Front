@@ -14,7 +14,7 @@
 .displayGrid {
   display: grid;
   grid-template-columns: repeat(3, auto);
-  grid-gap: 5em;
+  grid-column-gap: 5em;
 }
 
 input[type='submit']:disabled {

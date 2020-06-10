@@ -9,7 +9,7 @@ import { listToMap } from '../../Utils/objectUtils';
 import {
   checkValidity,
   inputChangedHandler,
-  projectFilterHandler,
+  filterHandler,
 } from '../../Utils/componentUtils';
 import Table from '../../components/Table/table';
 import Loader from '../../components/Loader/loader';
@@ -29,7 +29,7 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      Project: {
+      project: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Project',
@@ -45,11 +45,11 @@ class Backlog extends Component {
           type: 'checkbox',
           label: 'Filter by Backlog',
         },
-        value: undefined,
+        value: true,
         valid: true,
         touched: false,
       },
-      Creator: {
+      creator: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Creator',
@@ -59,7 +59,7 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      Realizer: {
+      realizer: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Realizer',
@@ -69,7 +69,7 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      Sprint: {
+      sprint: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Sprint',
@@ -79,7 +79,7 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      Status: {
+      status: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Status',
@@ -89,16 +89,16 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      Type: {
-        elementConfig: {
-          elementType: 'select',
-          label: 'Filter by Type',
-          options: [{ value: '', displayValue: 'Type' }],
-        },
-        value: undefined,
-        valid: true,
-        touched: false,
-      },
+      //   Type: {
+      //     elementConfig: {
+      //       elementType: 'select',
+      //       label: 'Filter by Type',
+      //       options: [{ value: '', displayValue: 'Type' }],
+      //     },
+      //     value: undefined,
+      //     valid: true,
+      //     touched: false,
+      //   },
     },
     formModal: {
       name: {
@@ -115,11 +115,25 @@ class Backlog extends Component {
         valid: false,
         touched: false,
       },
-      productOwner: {
+      description: {
+        elementConfig: {
+          elementType: 'input',
+          type: 'text',
+          placeholder: ' Description',
+          label: 'Description',
+        },
+        validation: {
+          required: true,
+        },
+        value: '',
+        valid: false,
+        touched: false,
+      },
+      projectId: {
         elementConfig: {
           elementType: 'select',
-          label: 'Product Owner',
-          options: [{ value: '', displayValue: 'Product Owner' }],
+          label: 'Filter by Project',
+          options: [{ value: '', displayValue: 'Project' }],
         },
         validation: {
           required: true,
@@ -128,11 +142,48 @@ class Backlog extends Component {
         valid: false,
         touched: false,
       },
-      scrumMaster: {
+      backlog: {
+        elementConfig: {
+          elementType: 'input',
+          type: 'checkbox',
+          checked: false,
+          label: 'Filter by Backlog',
+        },
+        value: true,
+        valid: false,
+        touched: false,
+      },
+      creatorId: {
         elementConfig: {
           elementType: 'select',
-          label: 'ScrumMaster',
-          options: [{ value: '', displayValue: 'Scrum Master' }],
+          label: 'Filter by Creator',
+          options: [{ value: '', displayValue: 'Creator' }],
+        },
+        validation: {
+          required: true,
+        },
+        value: '',
+        valid: false,
+        touched: false,
+      },
+      realizerId: {
+        elementConfig: {
+          elementType: 'select',
+          label: 'Filter by Realizer',
+          options: [{ value: '', displayValue: 'Realizer' }],
+        },
+        validation: {
+          required: true,
+        },
+        value: '',
+        valid: false,
+        touched: false,
+      },
+      sprintId: {
+        elementConfig: {
+          elementType: 'select',
+          label: 'Filter by Sprint',
+          options: [{ value: '', displayValue: 'Sprint' }],
         },
         validation: {
           required: true,
@@ -141,26 +192,37 @@ class Backlog extends Component {
         valid: false,
         touched: false,
       },
-      companyId: {
+      statusId: {
         elementConfig: {
           elementType: 'select',
-          label: 'Company',
-          options: [
-            { value: '', displayValue: 'Company' },
-            { value: '5ec57bd6a31f661b2411e7fc', displayValue: 'companyTest' },
-          ],
+          label: 'Filter by Status',
+          options: [{ value: '', displayValue: 'Status' }],
         },
         validation: {
           required: true,
         },
-        value: '5ec57bd6a31f661b2411e7fc',
-        valid: true,
+        value: undefined,
+        valid: false,
+        touched: false,
+      },
+      estimatedTime: {
+        elementConfig: {
+          elementType: 'input',
+          type: 'number',
+          placeholder: '0',
+          label: 'Estimated time',
+        },
+        validation: {
+          required: true,
+        },
+        value: '',
+        valid: false,
         touched: false,
       },
     },
     formIsValid: true,
     formModalIsValid: false,
-    projects: null,
+    tasks: null,
     idsNameMap: null,
     show: false,
     modalTitle: null,
@@ -175,44 +237,95 @@ class Backlog extends Component {
 
   componentDidMount() {
     this.props
-      .fetchIds()
+      .fetchFormTaskIds()
       .then((result) => {
         const newState = Object.assign(this.state, {});
 
-        const scrumMasterIds = [
+        const employeesIds = [
           ...result[0].data.employees.map((element) => {
             return { value: element._id, displayValue: element.name };
           }),
         ];
 
-        const scrumMasterMap = listToMap(scrumMasterIds);
+        const employeesMap = listToMap(employeesIds);
 
-        const productOwnerIds = [
-          ...result[1].data.employees.map((element) => {
+        const projectIds = [
+          ...result[1].data.projects.map((element) => {
             return { value: element._id, displayValue: element.name };
           }),
         ];
 
-        const productOwnerMap = listToMap(productOwnerIds);
+        const projectMap = listToMap(projectIds);
 
-        newState.idsNameMap = new Map([...scrumMasterMap, ...productOwnerMap]);
-
-        newState.form.productOwner.elementConfig.options = [
-          ...newState.form.productOwner.elementConfig.options,
-          ...productOwnerIds,
-        ];
-        newState.form.scrumMaster.elementConfig.options = [
-          ...newState.form.scrumMaster.elementConfig.options,
-          ...scrumMasterIds,
+        const statusIds = [
+          ...result[2].data.statuses.map((element) => {
+            return { value: element._id, displayValue: element.name };
+          }),
         ];
 
-        newState.formModal.productOwner.elementConfig.options = [
-          ...newState.formModal.productOwner.elementConfig.options,
-          ...productOwnerIds,
+        const statusMap = listToMap(statusIds);
+
+        const sprintIds = [
+          ...result[3].data.sprints.map((element) => {
+            return { value: element._id, displayValue: element.name };
+          }),
         ];
-        newState.formModal.scrumMaster.elementConfig.options = [
-          ...newState.formModal.scrumMaster.elementConfig.options,
-          ...scrumMasterIds,
+
+        const sprintMap = listToMap(sprintIds);
+
+        newState.idsNameMap = new Map([
+          ...employeesMap,
+          ...projectMap,
+          ...statusMap,
+          ...sprintMap,
+        ]);
+
+        newState.form.creator.elementConfig.options = [
+          ...newState.form.creator.elementConfig.options,
+          ...employeesIds,
+        ];
+
+        newState.form.realizer.elementConfig.options = [
+          ...newState.form.realizer.elementConfig.options,
+          ...employeesIds,
+        ];
+
+        newState.form.project.elementConfig.options = [
+          ...newState.form.project.elementConfig.options,
+          ...projectIds,
+        ];
+
+        newState.form.status.elementConfig.options = [
+          ...newState.form.status.elementConfig.options,
+          ...statusIds,
+        ];
+        newState.form.sprint.elementConfig.options = [
+          ...newState.form.sprint.elementConfig.options,
+          ...sprintIds,
+        ];
+
+        newState.formModal.creatorId.elementConfig.options = [
+          ...newState.formModal.creatorId.elementConfig.options,
+          ...employeesIds,
+        ];
+
+        newState.formModal.realizerId.elementConfig.options = [
+          ...newState.formModal.realizerId.elementConfig.options,
+          ...employeesIds,
+        ];
+
+        newState.formModal.projectId.elementConfig.options = [
+          ...newState.formModal.projectId.elementConfig.options,
+          ...projectIds,
+        ];
+
+        newState.formModal.statusId.elementConfig.options = [
+          ...newState.formModal.statusId.elementConfig.options,
+          ...statusIds,
+        ];
+        newState.formModal.sprintId.elementConfig.options = [
+          ...newState.formModal.sprintId.elementConfig.options,
+          ...sprintIds,
         ];
 
         this.setState(newState);
@@ -248,15 +361,15 @@ class Backlog extends Component {
     let callback;
 
     if (event.target.tagName === 'BUTTON') {
-      modalTitle = 'Add project';
-      modalButtonText = 'Create project';
+      modalTitle = 'Add task';
+      modalButtonText = 'Create task';
       creating = true;
-      callback = this.createProject;
+      callback = this.createTask;
     } else {
-      modalTitle = 'Edit project';
-      modalButtonText = 'Edit project';
+      modalTitle = 'Edit task';
+      modalButtonText = 'Edit task';
       creating = false;
-      callback = this.updateProject;
+      callback = this.updateTask;
     }
     this.setState({
       show: true,
@@ -267,10 +380,10 @@ class Backlog extends Component {
     });
   };
 
-  openProject = (event) => {
+  openTask = (event) => {
     this.handleShow(event);
     this.props
-      .fetchProjectById(event.target.closest('tr').id)
+      .fetchTaskById(event.target.closest('tr').id)
       .then((formValues) =>
         this.updateForm(this.state.formModal, 'formModal', formValues),
       );
@@ -290,32 +403,31 @@ class Backlog extends Component {
     this.setState(stateCloned);
   };
 
-  deleteProject = () => {
-    this.props
-      .deleteProject(this.props.project._id)
-      .then(() => this.handleClose());
+  deleteTask = () => {
+    console.log(this.props.task._id);
+    this.props.deleteTask(this.props.task._id).then(() => this.handleClose());
   };
 
-  createProject = (event) => {
-    return projectFilterHandler(
+  createTask = (event) => {
+    return filterHandler(
       event,
       this.state.formModal,
-      this.props.createProject,
+      this.props.createTask,
       false,
     );
   };
 
-  updateProject = (event) => {
-    return projectFilterHandler(
+  updateTask = (event) => {
+    return filterHandler(
       event,
       this.state.formModal,
-      this.props.updateProject,
-      this.props.project._id,
+      this.props.updateTask,
+      this.props.task._id,
     );
   };
 
   render() {
-    let projectContainer = (
+    let taskContainer = (
       <div>
         <Navbar />
         <div className="title mt-4">
@@ -323,13 +435,13 @@ class Backlog extends Component {
         </div>
         <Filters
           form={this.state.form}
-          callback={this.props.fetchProjects}
+          callback={this.props.fetchTasks}
           formName="form"
           formIsValidName="formIsValid"
           inputChangedHandler={this.inputChangedHandlerForm}
           checkValidity={checkValidity}
           formValid={this.state.formIsValid}
-          onSubmit={projectFilterHandler}
+          onSubmit={filterHandler}
           error={this.props.error}
           controlError={this.props.idsFetched}
           submitButton={true}
@@ -341,14 +453,30 @@ class Backlog extends Component {
           Add new Task
         </Button>
         <Table
-          headers={['Name', 'Scrum Master', 'Product Owner']}
-          keys={['name', 'scrumMaster', 'productOwner']}
-          body={this.props.projects}
+          headers={[
+            'Name',
+            'Description',
+            'Project',
+            'Creator',
+            'Realizer',
+            'Status',
+            'Sprint',
+          ]}
+          keys={[
+            'name',
+            'description',
+            'projectId',
+            'creatorId',
+            'realizerId',
+            'statusId',
+            'sprintId',
+          ]}
+          body={this.props.tasks}
           loading={this.props.spinner}
           error={this.props.error}
           controlError={this.props.idsFetched}
           idsNameMap={this.state.idsNameMap}
-          openProject={this.openProject}
+          open={this.openTask}
         />
 
         <Modal
@@ -362,48 +490,47 @@ class Backlog extends Component {
           inputChangedHandler={this.inputChangedHandlerForm}
           checkValidity={checkValidity}
           formValid={this.state.formModalIsValid}
-          onSubmit={projectFilterHandler}
+          onSubmit={filterHandler}
           buttonText={this.state.modalButtonText}
           creating={this.state.creating}
           loading={this.props.spinner}
-          fetchingProject={this.props.fetchingProject}
-          deleteFunction={this.deleteProject}
+          fetching={this.props.fetchingTask}
+          deleteFunction={this.deleteTask}
         ></Modal>
       </div>
     );
 
     if (this.props.loading) {
-      projectContainer = (
+      taskContainer = (
         <div>
           <Loader />
         </div>
       );
     }
-    return projectContainer;
+    return taskContainer;
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.project.fetching,
-    spinner: state.project.spinner,
-    idsFetched: state.project.idsFetched,
-    projects: state.project.projects,
-    project: state.project.project,
-    error: state.project.error,
-    fetchingProject: state.project.fetchingProject,
+    loading: state.task.fetching,
+    spinner: state.task.spinner,
+    idsFetched: state.task.idsFetched,
+    tasks: state.task.tasks,
+    task: state.task.task,
+    error: state.task.error,
+    fetchingTask: state.task.fetchingTask,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchIds: () => dispatch(actions.fetchIds()),
-    fetchProjects: (filter) => dispatch(actions.fetchProjects(filter)),
-    createProject: (project) => dispatch(actions.createProject(project)),
-    fetchProjectById: (id) => dispatch(actions.fetchProjectById(id)),
-    deleteProject: (id) => dispatch(actions.deleteProject(id)),
-    updateProject: (project, id) =>
-      dispatch(actions.updateProject(project, id)),
+    fetchFormTaskIds: () => dispatch(actions.fetchFormTaskIds()),
+    fetchTasks: (filter) => dispatch(actions.fetchTasks(filter)),
+    createTask: (task) => dispatch(actions.createTask(task)),
+    fetchTaskById: (id) => dispatch(actions.fetchTaskById(id)),
+    deleteTask: (id) => dispatch(actions.deleteTask(id)),
+    updateTask: (task, id) => dispatch(actions.updateTask(task, id)),
   };
 };
 

@@ -10,7 +10,7 @@ const table = (props) => {
     : null;
   const body = props.body
     ? props.body.map((element) => (
-        <tr id={element._id} key={element._id} onClick={props.openProject}>
+        <tr id={element._id} key={element._id} onClick={props.open}>
           <TableRow
             element={element}
             keys={props.keys}

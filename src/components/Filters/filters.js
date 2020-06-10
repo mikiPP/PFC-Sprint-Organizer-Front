@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import classes from './filters.module.css';
 import Input from '../Input/input';
-import { projectFilterHandler } from '../../Utils/componentUtils';
+import { filterHandler } from '../../Utils/componentUtils';
 
 class Filters extends Component {
   render() {
@@ -53,7 +53,7 @@ class Filters extends Component {
       <div className={[classes.container, 'mt-4'].join(' ')}>
         <form
           onSubmit={(event) => {
-            projectFilterHandler(event, this.props.form, this.props.callback);
+            filterHandler(event, this.props.form, this.props.callback);
           }}
         >
           <div

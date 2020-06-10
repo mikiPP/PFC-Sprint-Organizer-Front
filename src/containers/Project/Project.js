@@ -9,7 +9,7 @@ import { listToMap } from '../../Utils/objectUtils';
 import {
   checkValidity,
   inputChangedHandler,
-  projectFilterHandler,
+  filterHandler,
 } from '../../Utils/componentUtils';
 import Table from '../../components/Table/table';
 import Loader from '../../components/Loader/loader';
@@ -247,7 +247,7 @@ class Project extends Component {
   };
 
   createProject = (event) => {
-    return projectFilterHandler(
+    return filterHandler(
       event,
       this.state.formModal,
       this.props.createProject,
@@ -256,7 +256,7 @@ class Project extends Component {
   };
 
   updateProject = (event) => {
-    return projectFilterHandler(
+    return filterHandler(
       event,
       this.state.formModal,
       this.props.updateProject,
@@ -279,7 +279,7 @@ class Project extends Component {
           inputChangedHandler={this.inputChangedHandlerForm}
           checkValidity={checkValidity}
           formValid={this.state.formIsValid}
-          onSubmit={projectFilterHandler}
+          onSubmit={filterHandler}
           error={this.props.error}
           controlError={this.props.idsFetched}
           submitButton={true}
@@ -295,7 +295,7 @@ class Project extends Component {
           error={this.props.error}
           controlError={this.props.idsFetched}
           idsNameMap={this.state.idsNameMap}
-          openProject={this.openProject}
+          open={this.openProject}
         />
 
         <Modal
@@ -309,11 +309,11 @@ class Project extends Component {
           inputChangedHandler={this.inputChangedHandlerForm}
           checkValidity={checkValidity}
           formValid={this.state.formModalIsValid}
-          onSubmit={projectFilterHandler}
+          onSubmit={filterHandler}
           buttonText={this.state.modalButtonText}
           creating={this.state.creating}
           loading={this.props.spinner}
-          fetchingProject={this.props.fetchingProject}
+          fetching={this.props.fetchingProject}
           deleteFunction={this.deleteProject}
         ></Modal>
       </div>

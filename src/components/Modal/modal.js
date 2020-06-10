@@ -14,7 +14,7 @@ const modal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {props.loading || props.fetchingProject ? (
+        {props.loading || props.fetching ? (
           <Spinner
             className="mt-4"
             animation="border"
