@@ -92,6 +92,10 @@
   color: #ffffff;
 }
 
+.active {
+  color: yellow !important;
+}
+
 /* ------------------- Hamburguer clases ----------------------*/
 
 /*!
