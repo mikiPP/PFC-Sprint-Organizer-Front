@@ -88,7 +88,7 @@ export const createProject = (project) => {
       .post('project/', project)
       .then((result) => dispatch(createProjectSuccess(result.data.Project)))
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         return dispatch(
           fetchFail(
             err.response.data.message
