@@ -1,6 +1,7 @@
 {
   "name": "spring-organizer",
   "version": "0.1.0",
+  "proxy": "http://sprint-organizer-api.herokuapp.com",
   "engines": {
     "node": "12.x"
   },
