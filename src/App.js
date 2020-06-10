@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
 import { Switch, Route, Redirect } from 'react-router-dom';
+
+import './App.css';
 import Auth from './containers/Auth/Auth';
 import Index from './components/Index/index';
 import Project from './containers/Project/Project';
+import Backlog from './containers/Backlog/Backlog';
 
 class App extends Component {
   render() {
@@ -20,6 +22,7 @@ class App extends Component {
         <Switch>
           <Route path="/auth" component={Auth}></Route>
           <Route path="/project" component={Project}></Route>
+          <Route path="/backlog" component={Backlog}></Route>
           <Route path="/" exact component={Index}></Route>
           <Redirect to="/project" />
         </Switch>

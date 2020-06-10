@@ -42,7 +42,9 @@ const navbar = (props) => (
             </NavLink>
           </li>
           <li>
-            <a href="#">Some Text 2</a>
+            <NavLink to="/backlog" activeClassName={classes.active}>
+              Backlog
+            </NavLink>
           </li>
           <li>
             <a href="#">Some text 3</a>
