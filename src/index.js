@@ -9,6 +9,7 @@ import authReducer from './store/reducers/authReducer';
 import taskReducer from './store/reducers/taskReducer';
 import projectReducer from './store/reducers/projectReducer';
 import sprintReducer from './store/reducers/sprintReducer';
+import employeeReducer from './store/reducers/employeeReducer';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   project: projectReducer,
   task: taskReducer,
   sprint: sprintReducer,
+  employee: employeeReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

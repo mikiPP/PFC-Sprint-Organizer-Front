@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
 
 import * as actions from '../../store/index';
 import Navbar from '../../components/Navbar/navbar';
@@ -15,14 +14,25 @@ import Table from '../../components/Table/table';
 import Loader from '../../components/Loader/loader';
 import Modal from '../../components/Modal/modal';
 
-class Sprint extends Component {
+class Employee extends Component {
   state = {
     form: {
       name: {
         elementConfig: {
           elementType: 'input',
           type: 'text',
-          placeholder: 'Filter Sprint by Name',
+          placeholder: 'Filter Employee by Name',
+          label: 'Name',
+        },
+        value: undefined,
+        valid: true,
+        touched: false,
+      },
+      surnames: {
+        elementConfig: {
+          elementType: 'input',
+          type: 'text',
+          placeholder: 'Filter Employee by surnames',
           label: 'Name',
         },
         value: undefined,
@@ -39,33 +49,21 @@ class Sprint extends Component {
         valid: true,
         touched: false,
       },
-      startDate: {
-        elementConfig: {
-          elementType: 'input',
-          type: 'date',
-          placeholder: 'Start Date',
-          label: 'Filter Start Date',
-        },
-        value: undefined,
-        valid: true,
-        touched: false,
-      },
-      endDate: {
-        elementConfig: {
-          elementType: 'input',
-          type: 'date',
-          placeholder: 'End Date',
-          label: 'Filter End Date',
-        },
-        value: undefined,
-        valid: true,
-        touched: false,
-      },
-      statusId: {
+      companyId: {
         elementConfig: {
           elementType: 'select',
-          label: 'Filter by Status',
-          options: [{ value: '', displayValue: 'Status' }],
+          label: 'Filter by Company',
+          options: [{ value: '', displayValue: 'Company' }],
+        },
+        value: undefined,
+        valid: true,
+        touched: false,
+      },
+      roleId: {
+        elementConfig: {
+          elementType: 'select',
+          label: 'Filter by Role',
+          options: [{ value: '', displayValue: 'Role' }],
         },
         value: undefined,
         valid: true,
@@ -87,12 +85,12 @@ class Sprint extends Component {
         valid: false,
         touched: false,
       },
-      description: {
+      surnames: {
         elementConfig: {
           elementType: 'input',
           type: 'text',
-          placeholder: ' Description',
-          label: 'Description',
+          placeholder: ' Surnames',
+          label: 'Surname',
         },
         validation: {
           required: true,
@@ -101,11 +99,40 @@ class Sprint extends Component {
         valid: false,
         touched: false,
       },
-      projectId: {
+      email: {
+        elementConfig: {
+          elementType: 'input',
+          type: 'email',
+          placeholder: 'Email',
+          label: 'Email',
+        },
+        validation: {
+          required: true,
+          isEmail: true,
+        },
+        value: '',
+        valid: false,
+        touched: false,
+      },
+      profile: {
+        elementConfig: {
+          elementType: 'input',
+          type: 'text',
+          placeholder: 'Profile',
+          label: 'Profile',
+        },
+        validation: {
+          required: true,
+        },
+        value: '',
+        valid: false,
+        touched: false,
+      },
+      roleId: {
         elementConfig: {
           elementType: 'select',
-          label: 'Filter by Project',
-          options: [{ value: '', displayValue: 'Project' }],
+          label: 'Role',
+          options: [{ value: '', displayValue: 'Role' }],
         },
         validation: {
           required: true,
@@ -114,44 +141,16 @@ class Sprint extends Component {
         valid: false,
         touched: false,
       },
-      statusId: {
+      companyId: {
         elementConfig: {
           elementType: 'select',
-          label: 'Filter by Status',
-          options: [{ value: '', displayValue: 'Status' }],
+          label: 'Company',
+          options: [{ value: '', displayValue: 'Company' }],
         },
         validation: {
           required: true,
         },
         value: undefined,
-        valid: false,
-        touched: false,
-      },
-      startDate: {
-        elementConfig: {
-          elementType: 'input',
-          type: 'date',
-          placeholder: 'Start date',
-          label: 'Start date',
-        },
-        validation: {
-          required: true,
-        },
-        value: '',
-        valid: false,
-        touched: false,
-      },
-      endDate: {
-        elementConfig: {
-          elementType: 'input',
-          type: 'date',
-          placeholder: 'End date',
-          label: 'End date',
-        },
-        validation: {
-          required: true,
-        },
-        value: '',
         valid: false,
         touched: false,
       },
@@ -159,7 +158,7 @@ class Sprint extends Component {
 
     formIsValid: true,
     formModalIsValid: false,
-    sprints: null,
+    employees: null,
     idsNameMap: null,
     show: false,
     modalTitle: null,
@@ -174,46 +173,60 @@ class Sprint extends Component {
 
   componentDidMount() {
     this.props
-      .fetchFormSprintIds()
+      .fetchFormEmployeeIds()
       .then((result) => {
         const newState = Object.assign(this.state, {});
 
+        const company = result[0].data.company;
+        const companyId = [{ value: company._id, displayValue: company.name }];
+
+        const companyMap = listToMap(companyId);
+
         const projectIds = [
-          ...result[0].data.projects.map((element) => {
+          ...result[1].data.projects.map((element) => {
             return { value: element._id, displayValue: element.name };
           }),
         ];
 
         const projectMap = listToMap(projectIds);
 
-        const statusIds = [
-          ...result[1].data.statuses.map((element) => {
+        const roleIds = [
+          ...result[2].data.roles.map((element) => {
             return { value: element._id, displayValue: element.name };
           }),
         ];
 
-        const statusMap = listToMap(statusIds);
+        const roleMap = listToMap(roleIds);
 
-        newState.idsNameMap = new Map([...projectMap, ...statusMap]);
+        newState.idsNameMap = new Map([
+          ...companyMap,
+          ...roleMap,
+          ...projectMap,
+        ]);
+
+        newState.form.companyId.elementConfig.options = [
+          ...newState.form.companyId.elementConfig.options,
+          ...companyId,
+        ];
 
         newState.form.projectId.elementConfig.options = [
           ...newState.form.projectId.elementConfig.options,
           ...projectIds,
         ];
 
-        newState.form.statusId.elementConfig.options = [
-          ...newState.form.statusId.elementConfig.options,
-          ...statusIds,
+        newState.form.roleId.elementConfig.options = [
+          ...newState.form.roleId.elementConfig.options,
+          ...roleIds,
         ];
 
-        newState.formModal.projectId.elementConfig.options = [
-          ...newState.formModal.projectId.elementConfig.options,
-          ...projectIds,
+        newState.formModal.companyId.elementConfig.options = [
+          ...newState.formModal.companyId.elementConfig.options,
+          ...companyId,
         ];
 
-        newState.formModal.statusId.elementConfig.options = [
-          ...newState.formModal.statusId.elementConfig.options,
-          ...statusIds,
+        newState.formModal.roleId.elementConfig.options = [
+          ...newState.formModal.roleId.elementConfig.options,
+          ...roleIds,
         ];
 
         this.setState(newState);
@@ -249,15 +262,15 @@ class Sprint extends Component {
     let callback;
 
     if (event.target.tagName === 'BUTTON') {
-      modalTitle = 'Add sprint';
-      modalButtonText = 'Create sprint';
+      modalTitle = 'Add employee';
+      modalButtonText = 'Create employee';
       creating = true;
-      callback = this.createSprint;
+      callback = this.createEmployee;
     } else {
-      modalTitle = 'Edit sprint';
-      modalButtonText = 'Edit sprint';
+      modalTitle = 'Edit employee';
+      modalButtonText = 'Edit employee';
       creating = false;
-      callback = this.updateSprint;
+      callback = this.updateEmployee;
     }
     this.setState({
       show: true,
@@ -268,10 +281,10 @@ class Sprint extends Component {
     });
   };
 
-  openSprint = (event) => {
+  openEmployee = (event) => {
     this.handleShow(event);
     this.props
-      .fetchSprintById(event.target.closest('tr').id)
+      .fetchEmployeeById(event.target.closest('tr').id)
       .then((formValues) =>
         this.updateForm(this.state.formModal, 'formModal', formValues),
       );
@@ -291,40 +304,40 @@ class Sprint extends Component {
     this.setState(stateCloned);
   };
 
-  deleteSprint = () => {
+  deleteEmployee = () => {
     this.props
-      .deleteSprint(this.props.sprint._id)
+      .deleteEmployee(this.props.employee._id)
       .then(() => this.handleClose());
   };
 
-  createSprint = (event) => {
+  createEmployee = (event) => {
     return filterHandler(
       event,
       this.state.formModal,
-      this.props.createSprint,
+      this.props.createEmployee,
       false,
     );
   };
 
-  updateSprint = (event) => {
+  updateEmployee = (event) => {
     return filterHandler(
       event,
       this.state.formModal,
-      this.props.updateSprint,
-      this.props.sprint._id,
+      this.props.updateEmployee,
+      this.props.employee._id,
     );
   };
 
   render() {
-    let sprintContainer = (
+    let employeeContainer = (
       <div>
         <Navbar />
         <div className="title mt-4">
-          <h1>Sprint</h1>
+          <h1>Employee</h1>
         </div>
         <Filters
           form={this.state.form}
-          callback={this.props.fetchSprints}
+          callback={this.props.fetchEmployees}
           formName="form"
           formIsValidName="formIsValid"
           inputChangedHandler={this.inputChangedHandlerForm}
@@ -335,35 +348,16 @@ class Sprint extends Component {
           controlError={this.props.idsFetched}
           submitButton={true}
         />
-        <Button
-          className="btn btn-success float-right addButton"
-          onClick={this.handleShow}
-        >
-          Add new Sprint
-        </Button>
+
         <Table
-          headers={[
-            'Name',
-            'Description',
-            'Project',
-            'Status',
-            'Start Date',
-            'End Date',
-          ]}
-          keys={[
-            'name',
-            'description',
-            'projectId',
-            'statusId',
-            'startDate',
-            'endDate',
-          ]}
-          body={this.props.sprints}
+          headers={['Name', 'Surnames', 'Profile', 'Role']}
+          keys={['name', 'surnames', 'profile', 'roleId']}
+          body={this.props.employees}
           loading={this.props.spinner}
           error={this.props.error}
           controlError={this.props.idsFetched}
           idsNameMap={this.state.idsNameMap}
-          open={this.openSprint}
+          open={this.openEmployee}
         />
 
         <Modal
@@ -381,44 +375,45 @@ class Sprint extends Component {
           buttonText={this.state.modalButtonText}
           creating={this.state.creating}
           loading={this.props.spinner}
-          fetching={this.props.fetchingSprint}
-          deleteFunction={this.deleteSprint}
+          fetching={this.props.fetchingEmployee}
+          deleteFunction={this.deleteEmployee}
         ></Modal>
       </div>
     );
 
     if (this.props.loading) {
-      sprintContainer = (
+      employeeContainer = (
         <div>
           <Loader />
         </div>
       );
     }
-    return sprintContainer;
+    return employeeContainer;
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.sprint.fetching,
-    spinner: state.sprint.spinner,
-    idsFetched: state.sprint.idsFetched,
-    sprints: state.sprint.sprints,
-    sprint: state.sprint.sprint,
-    error: state.sprint.error,
-    fetchingSprint: state.sprint.fetchingSprint,
+    loading: state.employee.fetching,
+    spinner: state.employee.spinner,
+    idsFetched: state.employee.idsFetched,
+    employees: state.employee.employees,
+    employee: state.employee.employee,
+    error: state.employee.error,
+    fetchingEmployee: state.employee.fetchingEmployee,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchFormSprintIds: () => dispatch(actions.fetchFormSprintIds()),
-    fetchSprints: (filter) => dispatch(actions.fetchSprints(filter)),
-    createSprint: (sprint) => dispatch(actions.createSprint(sprint)),
-    fetchSprintById: (id) => dispatch(actions.fetchSprintById(id)),
-    deleteSprint: (id) => dispatch(actions.deleteSprint(id)),
-    updateSprint: (sprint, id) => dispatch(actions.updateSprint(sprint, id)),
+    fetchFormEmployeeIds: () => dispatch(actions.fetchFormEmployeeIds()),
+    fetchEmployees: (filter) => dispatch(actions.fetchEmployees(filter)),
+    createEmployee: (employee) => dispatch(actions.createEmployee(employee)),
+    fetchEmployeeById: (id) => dispatch(actions.fetchEmployeeById(id)),
+    deleteEmployee: (id) => dispatch(actions.deleteEmployee(id)),
+    updateEmployee: (employee, id) =>
+      dispatch(actions.updateEmployee(employee, id)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sprint);
+export default connect(mapStateToProps, mapDispatchToProps)(Employee);

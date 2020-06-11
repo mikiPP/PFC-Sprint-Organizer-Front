@@ -23,3 +23,11 @@ export {
   deleteSprint,
   updateSprint,
 } from './actions/sprintAction';
+export {
+  fetchFormEmployeeIds,
+  fetchEmployees,
+  createEmployee,
+  fetchEmployeeById,
+  deleteEmployee,
+  updateEmployee,
+} from './actions/employeeAction';

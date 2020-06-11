@@ -7,6 +7,7 @@ import Index from './components/Index/index';
 import Project from './containers/Project/Project';
 import Backlog from './containers/Backlog/Backlog';
 import Sprint from './containers/Sprint/Sprint';
+import Employee from './containers/Employee/Employee';
 
 class App extends Component {
   render() {
@@ -25,6 +26,7 @@ class App extends Component {
           <Route path="/project" component={Project}></Route>
           <Route path="/backlog" component={Backlog}></Route>
           <Route path="/sprint" component={Sprint}></Route>
+          <Route path="/employee" component={Employee}></Route>
           <Route path="/" exact component={Index}></Route>
           <Redirect to="/project" />
         </Switch>

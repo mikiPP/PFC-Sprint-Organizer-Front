@@ -52,7 +52,9 @@ const navbar = (props) => (
             </NavLink>
           </li>
           <li>
-            <a href="#">Some text 4</a>
+            <NavLink to="/employee" activeClassName={classes.active}>
+              Employee
+            </NavLink>
           </li>
         </ul>
         <Link to="/">
