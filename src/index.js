@@ -8,6 +8,7 @@ import Axios from 'axios';
 import authReducer from './store/reducers/authReducer';
 import taskReducer from './store/reducers/taskReducer';
 import projectReducer from './store/reducers/projectReducer';
+import sprintReducer from './store/reducers/sprintReducer';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   project: projectReducer,
   task: taskReducer,
+  sprint: sprintReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

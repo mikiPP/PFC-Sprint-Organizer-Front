@@ -15,3 +15,11 @@ export {
   deleteTask,
   updateTask,
 } from './actions/taskAction';
+export {
+  fetchFormSprintIds,
+  fetchSprints,
+  createSprint,
+  fetchSprintById,
+  deleteSprint,
+  updateSprint,
+} from './actions/sprintAction';

@@ -47,7 +47,9 @@ const navbar = (props) => (
             </NavLink>
           </li>
           <li>
-            <a href="#">Some text 3</a>
+            <NavLink to="/sprint" activeClassName={classes.active}>
+              Sprint
+            </NavLink>
           </li>
           <li>
             <a href="#">Some text 4</a>

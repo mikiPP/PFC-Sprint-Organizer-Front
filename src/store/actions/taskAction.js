@@ -3,13 +3,13 @@ import axios from 'axios';
 
 export const fetchIdsStart = () => {
   return {
-    type: actionTypes.FETCH_IDS_START,
+    type: actionTypes.TASK_FORM_IDS_START,
   };
 };
 
 export const fetchIdsSuccessfull = () => {
   return {
-    type: actionTypes.FETCH_IDS_SUCCESS,
+    type: actionTypes.TASK_FORM_IDS_SUCCESS,
   };
 };
 

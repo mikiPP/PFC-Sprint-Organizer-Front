@@ -15,21 +15,21 @@ import Table from '../../components/Table/table';
 import Loader from '../../components/Loader/loader';
 import Modal from '../../components/Modal/modal';
 
-class Backlog extends Component {
+class Sprint extends Component {
   state = {
     form: {
       name: {
         elementConfig: {
           elementType: 'input',
           type: 'text',
-          placeholder: 'Filter Task by Name',
+          placeholder: 'Filter Sprint by Name',
           label: 'Name',
         },
         value: undefined,
         valid: true,
         touched: false,
       },
-      project: {
+      projectId: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Project',
@@ -39,47 +39,29 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      backlog: {
+      startDate: {
         elementConfig: {
           elementType: 'input',
-          type: 'checkbox',
-          label: 'Filter by Backlog',
-        },
-        value: true,
-        valid: true,
-        touched: false,
-      },
-      creator: {
-        elementConfig: {
-          elementType: 'select',
-          label: 'Filter by Creator',
-          options: [{ value: '', displayValue: 'Creator' }],
+          type: 'date',
+          placeholder: 'Start Date',
+          label: 'Filter Start Date',
         },
         value: undefined,
         valid: true,
         touched: false,
       },
-      realizer: {
+      endDate: {
         elementConfig: {
-          elementType: 'select',
-          label: 'Filter by Realizer',
-          options: [{ value: '', displayValue: 'Realizer' }],
+          elementType: 'input',
+          type: 'date',
+          placeholder: 'End Date',
+          label: 'Filter End Date',
         },
         value: undefined,
         valid: true,
         touched: false,
       },
-      sprint: {
-        elementConfig: {
-          elementType: 'select',
-          label: 'Filter by Sprint',
-          options: [{ value: '', displayValue: 'Sprint' }],
-        },
-        value: undefined,
-        valid: true,
-        touched: false,
-      },
-      status: {
+      statusId: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Status',
@@ -89,16 +71,6 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      //   Type: {
-      //     elementConfig: {
-      //       elementType: 'select',
-      //       label: 'Filter by Type',
-      //       options: [{ value: '', displayValue: 'Type' }],
-      //     },
-      //     value: undefined,
-      //     valid: true,
-      //     touched: false,
-      //   },
     },
     formModal: {
       name: {
@@ -142,56 +114,6 @@ class Backlog extends Component {
         valid: false,
         touched: false,
       },
-      backlog: {
-        elementConfig: {
-          elementType: 'input',
-          type: 'checkbox',
-          checked: false,
-          label: 'Filter by Backlog',
-        },
-        value: true,
-        valid: false,
-        touched: false,
-      },
-      creatorId: {
-        elementConfig: {
-          elementType: 'select',
-          label: 'Filter by Creator',
-          options: [{ value: '', displayValue: 'Creator' }],
-        },
-        validation: {
-          required: true,
-        },
-        value: '',
-        valid: false,
-        touched: false,
-      },
-      realizerId: {
-        elementConfig: {
-          elementType: 'select',
-          label: 'Filter by Realizer',
-          options: [{ value: '', displayValue: 'Realizer' }],
-        },
-        validation: {
-          required: true,
-        },
-        value: '',
-        valid: false,
-        touched: false,
-      },
-      sprintId: {
-        elementConfig: {
-          elementType: 'select',
-          label: 'Filter by Sprint',
-          options: [{ value: '', displayValue: 'Sprint' }],
-        },
-        validation: {
-          required: true,
-        },
-        value: undefined,
-        valid: false,
-        touched: false,
-      },
       statusId: {
         elementConfig: {
           elementType: 'select',
@@ -205,12 +127,26 @@ class Backlog extends Component {
         valid: false,
         touched: false,
       },
-      estimatedTime: {
+      startDate: {
         elementConfig: {
           elementType: 'input',
-          type: 'number',
-          placeholder: '0',
-          label: 'Estimated time',
+          type: 'date',
+          placeholder: 'Start date',
+          label: 'Start date',
+        },
+        validation: {
+          required: true,
+        },
+        value: '',
+        valid: false,
+        touched: false,
+      },
+      endDate: {
+        elementConfig: {
+          elementType: 'input',
+          type: 'date',
+          placeholder: 'End date',
+          label: 'End date',
         },
         validation: {
           required: true,
@@ -220,9 +156,10 @@ class Backlog extends Component {
         touched: false,
       },
     },
+
     formIsValid: true,
     formModalIsValid: false,
-    tasks: null,
+    sprints: null,
     idsNameMap: null,
     show: false,
     modalTitle: null,
@@ -237,20 +174,12 @@ class Backlog extends Component {
 
   componentDidMount() {
     this.props
-      .fetchFormTaskIds()
+      .fetchFormSprintIds()
       .then((result) => {
         const newState = Object.assign(this.state, {});
 
-        const employeesIds = [
-          ...result[0].data.employees.map((element) => {
-            return { value: element._id, displayValue: element.name };
-          }),
-        ];
-
-        const employeesMap = listToMap(employeesIds);
-
         const projectIds = [
-          ...result[1].data.projects.map((element) => {
+          ...result[0].data.projects.map((element) => {
             return { value: element._id, displayValue: element.name };
           }),
         ];
@@ -258,60 +187,23 @@ class Backlog extends Component {
         const projectMap = listToMap(projectIds);
 
         const statusIds = [
-          ...result[2].data.statuses.map((element) => {
+          ...result[1].data.statuses.map((element) => {
             return { value: element._id, displayValue: element.name };
           }),
         ];
 
         const statusMap = listToMap(statusIds);
 
-        const sprintIds = [
-          ...result[3].data.sprints.map((element) => {
-            return { value: element._id, displayValue: element.name };
-          }),
-        ];
+        newState.idsNameMap = new Map([...projectMap, ...statusMap]);
 
-        const sprintMap = listToMap(sprintIds);
-
-        newState.idsNameMap = new Map([
-          ...employeesMap,
-          ...projectMap,
-          ...statusMap,
-          ...sprintMap,
-        ]);
-
-        newState.form.creator.elementConfig.options = [
-          ...newState.form.creator.elementConfig.options,
-          ...employeesIds,
-        ];
-
-        newState.form.realizer.elementConfig.options = [
-          ...newState.form.realizer.elementConfig.options,
-          ...employeesIds,
-        ];
-
-        newState.form.project.elementConfig.options = [
-          ...newState.form.project.elementConfig.options,
+        newState.form.projectId.elementConfig.options = [
+          ...newState.form.projectId.elementConfig.options,
           ...projectIds,
         ];
 
-        newState.form.status.elementConfig.options = [
-          ...newState.form.status.elementConfig.options,
+        newState.form.statusId.elementConfig.options = [
+          ...newState.form.statusId.elementConfig.options,
           ...statusIds,
-        ];
-        newState.form.sprint.elementConfig.options = [
-          ...newState.form.sprint.elementConfig.options,
-          ...sprintIds,
-        ];
-
-        newState.formModal.creatorId.elementConfig.options = [
-          ...newState.formModal.creatorId.elementConfig.options,
-          ...employeesIds,
-        ];
-
-        newState.formModal.realizerId.elementConfig.options = [
-          ...newState.formModal.realizerId.elementConfig.options,
-          ...employeesIds,
         ];
 
         newState.formModal.projectId.elementConfig.options = [
@@ -322,10 +214,6 @@ class Backlog extends Component {
         newState.formModal.statusId.elementConfig.options = [
           ...newState.formModal.statusId.elementConfig.options,
           ...statusIds,
-        ];
-        newState.formModal.sprintId.elementConfig.options = [
-          ...newState.formModal.sprintId.elementConfig.options,
-          ...sprintIds,
         ];
 
         this.setState(newState);
@@ -361,15 +249,15 @@ class Backlog extends Component {
     let callback;
 
     if (event.target.tagName === 'BUTTON') {
-      modalTitle = 'Add task';
-      modalButtonText = 'Create task';
+      modalTitle = 'Add sprint';
+      modalButtonText = 'Create sprint';
       creating = true;
-      callback = this.createTask;
+      callback = this.createSprint;
     } else {
-      modalTitle = 'Edit task';
-      modalButtonText = 'Edit task';
+      modalTitle = 'Edit sprint';
+      modalButtonText = 'Edit sprint';
       creating = false;
-      callback = this.updateTask;
+      callback = this.updateSprint;
     }
     this.setState({
       show: true,
@@ -380,10 +268,10 @@ class Backlog extends Component {
     });
   };
 
-  openTask = (event) => {
+  openSprint = (event) => {
     this.handleShow(event);
     this.props
-      .fetchTaskById(event.target.closest('tr').id)
+      .fetchSprintById(event.target.closest('tr').id)
       .then((formValues) =>
         this.updateForm(this.state.formModal, 'formModal', formValues),
       );
@@ -397,44 +285,49 @@ class Backlog extends Component {
       stateCloned[formName][key].valid = true;
     });
 
+    // stateCloned[formName].startDate = formValues.startDate;
+    // stateCloned[formName].endDate = formValues.endDate;
+
     stateCloned[`${formName}IsValid`] = true;
     stateCloned.creating = false;
 
     this.setState(stateCloned);
   };
 
-  deleteTask = () => {
-    this.props.deleteTask(this.props.task._id).then(() => this.handleClose());
+  deleteSprint = () => {
+    this.props
+      .deleteSprint(this.props.sprint._id)
+      .then(() => this.handleClose());
   };
 
-  createTask = (event) => {
+  createSprint = (event) => {
     return filterHandler(
       event,
       this.state.formModal,
-      this.props.createTask,
+      this.props.createSprint,
       false,
     );
   };
 
-  updateTask = (event) => {
+  updateSprint = (event) => {
     return filterHandler(
       event,
       this.state.formModal,
-      this.props.updateTask,
-      this.props.task._id,
+      this.props.updateSprint,
+      this.props.sprint._id,
     );
   };
 
   render() {
-    let taskContainer = (
+    let sprintContainer = (
       <div>
         <Navbar />
         <div className="title mt-4">
-          <h1>Backlog</h1>
+          <h1>Sprint</h1>
         </div>
         <Filters
           form={this.state.form}
-          callback={this.props.fetchTasks}
+          callback={this.props.fetchSprints}
           formName="form"
           formIsValidName="formIsValid"
           inputChangedHandler={this.inputChangedHandlerForm}
@@ -449,33 +342,31 @@ class Backlog extends Component {
           className="btn btn-success float-right addButton"
           onClick={this.handleShow}
         >
-          Add new Task
+          Add new Sprint
         </Button>
         <Table
           headers={[
             'Name',
             'Description',
             'Project',
-            'Creator',
-            'Realizer',
             'Status',
-            'Sprint',
+            'Start Date',
+            'End Date',
           ]}
           keys={[
             'name',
             'description',
             'projectId',
-            'creatorId',
-            'realizerId',
             'statusId',
-            'sprintId',
+            'startDate',
+            'endDate',
           ]}
-          body={this.props.tasks}
+          body={this.props.sprints}
           loading={this.props.spinner}
           error={this.props.error}
           controlError={this.props.idsFetched}
           idsNameMap={this.state.idsNameMap}
-          open={this.openTask}
+          open={this.openSprint}
         />
 
         <Modal
@@ -493,44 +384,44 @@ class Backlog extends Component {
           buttonText={this.state.modalButtonText}
           creating={this.state.creating}
           loading={this.props.spinner}
-          fetching={this.props.fetchingTask}
-          deleteFunction={this.deleteTask}
+          fetching={this.props.fetchingSprint}
+          deleteFunction={this.deleteSprint}
         ></Modal>
       </div>
     );
 
     if (this.props.loading) {
-      taskContainer = (
+      sprintContainer = (
         <div>
           <Loader />
         </div>
       );
     }
-    return taskContainer;
+    return sprintContainer;
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.task.fetching,
-    spinner: state.task.spinner,
-    idsFetched: state.task.idsFetched,
-    tasks: state.task.tasks,
-    task: state.task.task,
-    error: state.task.error,
-    fetchingTask: state.task.fetchingTask,
+    loading: state.sprint.fetching,
+    spinner: state.sprint.spinner,
+    idsFetched: state.sprint.idsFetched,
+    sprints: state.sprint.sprints,
+    sprint: state.sprint.sprint,
+    error: state.sprint.error,
+    fetchingSprint: state.sprint.fetchingSprint,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchFormTaskIds: () => dispatch(actions.fetchFormTaskIds()),
-    fetchTasks: (filter) => dispatch(actions.fetchTasks(filter)),
-    createTask: (task) => dispatch(actions.createTask(task)),
-    fetchTaskById: (id) => dispatch(actions.fetchTaskById(id)),
-    deleteTask: (id) => dispatch(actions.deleteTask(id)),
-    updateTask: (task, id) => dispatch(actions.updateTask(task, id)),
+    fetchFormSprintIds: () => dispatch(actions.fetchFormSprintIds()),
+    fetchSprints: (filter) => dispatch(actions.fetchSprints(filter)),
+    createSprint: (sprint) => dispatch(actions.createSprint(sprint)),
+    fetchSprintById: (id) => dispatch(actions.fetchSprintById(id)),
+    deleteSprint: (id) => dispatch(actions.deleteSprint(id)),
+    updateSprint: (sprint, id) => dispatch(actions.updateSprint(sprint, id)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Backlog);
+export default connect(mapStateToProps, mapDispatchToProps)(Sprint);

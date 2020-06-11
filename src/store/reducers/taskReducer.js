@@ -41,13 +41,13 @@ const createTask = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_IDS_START:
+    case actionTypes.TASK_FORM_IDS_START:
       return updateObject(state, {
         fetching: true,
         error: null,
         idsFetched: false,
       });
-    case actionTypes.FETCH_IDS_SUCCESS:
+    case actionTypes.TASK_FORM_IDS_SUCCESS:
       return updateObject(state, {
         fetching: false,
         error: null,
