@@ -13,7 +13,6 @@ import {
 import Table from '../../components/Table/table';
 import Loader from '../../components/Loader/loader';
 import Modal from '../../components/Modal/modal';
-import classes from './role.module.css';
 
 class Role extends Component {
   state = {
@@ -25,7 +24,7 @@ class Role extends Component {
           placeholder: 'Filter Role by Name',
           label: 'Name',
         },
-        value: undefined,
+        value: '',
         valid: true,
         touched: false,
       },
@@ -74,6 +73,7 @@ class Role extends Component {
         elementConfig: {
           elementType: 'input',
           type: 'checkbox',
+
           label: 'Disabled',
         },
         value: undefined,
@@ -194,21 +194,19 @@ class Role extends Component {
         <div className="title mt-4">
           <h1>Role</h1>
         </div>
-        <div className={classes.roleFilterContainer}>
-          <Filters
-            form={this.state.form}
-            callback={this.props.fetchRoles}
-            formName="form"
-            formIsValidName="formIsValid"
-            inputChangedHandler={this.inputChangedHandlerForm}
-            checkValidity={checkValidity}
-            formValid={this.state.formIsValid}
-            onSubmit={filterHandler}
-            error={this.props.error}
-            controlError={this.props.idsFetched}
-            submitButton={true}
-          />
-        </div>
+        <Filters
+          form={this.state.form}
+          callback={this.props.fetchRoles}
+          formName="form"
+          formIsValidName="formIsValid"
+          inputChangedHandler={this.inputChangedHandlerForm}
+          checkValidity={checkValidity}
+          formValid={this.state.formIsValid}
+          onSubmit={filterHandler}
+          error={this.props.error}
+          controlError={this.props.idsFetched}
+          submitButton={true}
+        />
         <Button
           className="btn btn-succeses float-right addButton"
           onClick={this.handleShow}
