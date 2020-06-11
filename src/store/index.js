@@ -49,3 +49,10 @@ export {
   deleteRole,
   updateRole,
 } from './actions/roleAction';
+export {
+  fetchPermissions,
+  createPermission,
+  fetchPermissionById,
+  deletePermission,
+  updatePermission,
+} from './actions/permissionAction';

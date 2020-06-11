@@ -12,6 +12,8 @@ import sprintReducer from './store/reducers/sprintReducer';
 import employeeReducer from './store/reducers/employeeReducer';
 import roleReducer from './store/reducers/roleReducer';
 import statusReducer from './store/reducers/statusReducer';
+import permissionReducer from './store/reducers/permissionReducer';
+
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
@@ -29,6 +31,7 @@ const rootReducer = combineReducers({
   employee: employeeReducer,
   role: roleReducer,
   status: statusReducer,
+  permission: permissionReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

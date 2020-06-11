@@ -66,6 +66,11 @@ const navbar = (props) => (
               Role
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/permission" activeClassName={classes.active}>
+              Permission
+            </NavLink>
+          </li>
         </ul>
         <Link to="/">
           <Navbar.Brand>
