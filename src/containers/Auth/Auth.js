@@ -6,6 +6,7 @@ import classes from './auth.module.css';
 import Loader from '../../components/Loader/loader';
 import * as actions from '../../store/index';
 import { Link, Redirect } from 'react-router-dom';
+import { checkValidity } from '../../Utils/componentUtils';
 
 class Auth extends Component {
   state = {
@@ -34,6 +35,16 @@ class Auth extends Component {
     signUpForm: {
       name: {
         name: 'name',
+        value: '',
+        validation: {
+          required: true,
+          isEmail: false,
+        },
+        valid: false,
+        touched: false,
+      },
+      surnames: {
+        name: 'surnames',
         value: '',
         validation: {
           required: true,
@@ -97,7 +108,7 @@ class Auth extends Component {
       ...updatedForm[inputIdentifier],
     };
     updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidity(
+    updatedFormElement.valid = checkValidity(
       updatedFormElement.value,
       updatedFormElement.validation,
     );
@@ -150,47 +161,6 @@ class Auth extends Component {
     this.props.onSignUp(formData);
     this.setState({ submited: true });
   };
-
-  checkValidity(value, rules) {
-    let isValid = true;
-
-    if (!rules) {
-      return true;
-    }
-
-    if (rules.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    if (rules.isEmail) {
-      const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-      isValid = pattern.test(value) && isValid;
-    }
-
-    if (rules.isPassword) {
-      const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
-      isValid = pattern.test(value) && isValid;
-    }
-
-    if (rules.isPasswordConfirm) {
-      isValid = value === this.state.signUpForm.password.value && isValid;
-    }
-
-    if (rules.isNumeric) {
-      const pattern = /^\d+$/;
-      isValid = pattern.test(value) && isValid;
-    }
-
-    return isValid;
-  }
 
   render() {
     let errorMessageSignUp = null;
@@ -292,6 +262,18 @@ class Auth extends Component {
                 ></input>
                 <input
                   type="text"
+                  name="surnames"
+                  placeholder="Surnames"
+                  onChange={(event) =>
+                    this.inputChangedHandler(
+                      event,
+                      this.state.signUpForm.surnames.name,
+                      false,
+                    )
+                  }
+                ></input>
+                <input
+                  type="text"
                   name="profile"
                   placeholder="Profile"
                   onChange={(event) =>
@@ -326,6 +308,14 @@ class Auth extends Component {
                     )
                   }
                 ></input>
+                {!this.state.signUpForm.password.valid &&
+                this.state.signUpForm.password.touched ? (
+                  <small className="invalid">
+                    The password must contain 8 characters, and must contain: a
+                    LowerCase letter, an UpperCase letter, a simbol like: _,!
+                    and a number
+                  </small>
+                ) : null}
                 <input
                   type="password"
                   name="passwordConfirm"
@@ -338,6 +328,10 @@ class Auth extends Component {
                     )
                   }
                 ></input>
+                {!this.state.signUpForm.password.valid &&
+                this.state.signUpForm.password.touched ? (
+                  <small className="invalid">The passwords must match</small>
+                ) : null}
                 <input
                   disabled={!this.state.signUpFormIsValid}
                   type="submit"
@@ -365,7 +359,7 @@ class Auth extends Component {
     }
 
     if (sessionStorage.getItem('logged')) {
-      form = <Redirect to="project"></Redirect>;
+      form = <Redirect to="/project"></Redirect>;
     }
 
     return <div> {form} </div>;
