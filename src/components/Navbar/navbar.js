@@ -86,7 +86,12 @@ const navbar = (props) => (
               href="#action/3.2"
               className={classes.dropdownItem}
             >
-              <div>
+              <div
+                onClick={(event) => {
+                  sessionStorage.clear();
+                  window.location.reload(false);
+                }}
+              >
                 <span>
                   <i className="fas fa-power-off"></i> Logout
                 </span>
