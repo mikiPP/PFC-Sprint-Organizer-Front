@@ -56,6 +56,11 @@ const navbar = (props) => (
               Employee
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/status" activeClassName={classes.active}>
+              Status
+            </NavLink>
+          </li>
         </ul>
         <Link to="/">
           <Navbar.Brand>

@@ -31,3 +31,10 @@ export {
   deleteEmployee,
   updateEmployee,
 } from './actions/employeeAction';
+export {
+  fetchStatuses,
+  createStatus,
+  fetchStatusById,
+  deleteStatus,
+  updateStatus,
+} from './actions/statusAction';
