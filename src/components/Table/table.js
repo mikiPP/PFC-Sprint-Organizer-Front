@@ -9,8 +9,12 @@ const table = (props) => {
     ? props.headers.map((element) => <th key={element}>{element}</th>)
     : null;
   const body = props.body
-    ? props.body.map((element) => (
-        <tr id={element._id} key={element._id} onClick={props.open}>
+    ? props.body.map((element, index) => (
+        <tr
+          id={element._id}
+          key={`${element._id}_${index}`}
+          onClick={props.open}
+        >
           <TableRow
             element={element}
             keys={props.keys}
