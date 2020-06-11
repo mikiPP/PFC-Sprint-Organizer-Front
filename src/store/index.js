@@ -38,3 +38,10 @@ export {
   deleteStatus,
   updateStatus,
 } from './actions/statusAction';
+export {
+  fetchRoles,
+  createRole,
+  fetchRoleById,
+  deleteRole,
+  updateRole,
+} from './actions/roleAction';

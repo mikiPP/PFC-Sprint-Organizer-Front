@@ -10,6 +10,7 @@ import taskReducer from './store/reducers/taskReducer';
 import projectReducer from './store/reducers/projectReducer';
 import sprintReducer from './store/reducers/sprintReducer';
 import employeeReducer from './store/reducers/employeeReducer';
+import roleReducer from './store/reducers/roleReducer';
 import statusReducer from './store/reducers/statusReducer';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   task: taskReducer,
   sprint: sprintReducer,
   employee: employeeReducer,
+  role: roleReducer,
   status: statusReducer,
 });
 

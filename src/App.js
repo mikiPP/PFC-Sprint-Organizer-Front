@@ -9,6 +9,7 @@ import Backlog from './containers/Backlog/Backlog';
 import Sprint from './containers/Sprint/Sprint';
 import Employee from './containers/Employee/Employee';
 import Status from './containers/Status/Status';
+import Role from './containers/Role/Role';
 
 class App extends Component {
   render() {
@@ -29,6 +30,7 @@ class App extends Component {
           <Route path="/sprint" component={Sprint}></Route>
           <Route path="/employee" component={Employee}></Route>
           <Route path="/status" component={Status}></Route>
+          <Route path="/role" component={Role}></Route>
           <Route path="/" exact component={Index}></Route>
           <Redirect to="/project" />
         </Switch>
