@@ -159,7 +159,6 @@ class Employee extends Component {
     formIsValid: true,
     formModalIsValid: false,
     employees: null,
-    idsNameMap: null,
     show: false,
     modalTitle: null,
     creating: null,
@@ -198,11 +197,9 @@ class Employee extends Component {
 
         const roleMap = listToMap(roleIds);
 
-        newState.idsNameMap = new Map([
-          ...companyMap,
-          ...roleMap,
-          ...projectMap,
-        ]);
+        this.props.setMapIdsNamesEmployee(
+          new Map([...companyMap, ...roleMap, ...projectMap]),
+        );
 
         newState.form.companyId.elementConfig.options = [
           ...newState.form.companyId.elementConfig.options,
@@ -356,7 +353,7 @@ class Employee extends Component {
           loading={this.props.spinner}
           error={this.props.error}
           controlError={this.props.idsFetched}
-          idsNameMap={this.state.idsNameMap}
+          idsNameMap={this.props.mapIdNameEmployee}
           open={this.openEmployee}
         />
 
@@ -401,6 +398,7 @@ const mapStateToProps = (state) => {
     employee: state.employee.employee,
     error: state.employee.error,
     fetchingEmployee: state.employee.fetchingEmployee,
+    mapIdNameEmployee: state.employee.mapIdNameEmployee,
   };
 };
 
@@ -411,6 +409,8 @@ const mapDispatchToProps = (dispatch) => {
     createEmployee: (employee) => dispatch(actions.createEmployee(employee)),
     fetchEmployeeById: (id) => dispatch(actions.fetchEmployeeById(id)),
     deleteEmployee: (id) => dispatch(actions.deleteEmployee(id)),
+    setMapIdsNamesEmployee: (map) =>
+      dispatch(actions.setMapIdsNamesEmployee(map)),
     updateEmployee: (employee, id) =>
       dispatch(actions.updateEmployee(employee, id)),
   };

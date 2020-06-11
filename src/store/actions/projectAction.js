@@ -214,3 +214,10 @@ export const updateProjectSuccess = (project) => {
     project,
   };
 };
+
+export const setMapIdsNames = (map) => {
+  return {
+    type: actionTypes.SET_MAP_ID_NAME_PROJECT,
+    mapIdName: map,
+  };
+};

@@ -216,3 +216,10 @@ export const updateTaskSuccess = (task) => {
     task,
   };
 };
+
+export const setMapIdsNamesTask = (map) => {
+  return {
+    type: actionTypes.SET_MAP_ID_NAME_BACKLOG,
+    mapIdName: map,
+  };
+};

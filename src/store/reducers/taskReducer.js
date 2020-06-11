@@ -9,6 +9,7 @@ const initialState = {
   fetchingTask: false,
   tasks: null,
   task: null,
+  mapIdNameTask: null,
 };
 
 const deleteTask = (state, id) => {
@@ -90,6 +91,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.UPDATE_TASK:
       return updateTask(state, action);
+
+    case actionTypes.SET_MAP_ID_NAME_BACKLOG:
+      return updateObject(state, { mapIdNameTask: action.mapIdName });
     default:
       return state;
   }

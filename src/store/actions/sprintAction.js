@@ -239,3 +239,10 @@ export const formatDate = (sprints, formater) => {
     element.endDate = moment(element.endDate).format(formater);
   });
 };
+
+export const setMapIdsNamesSprint = (map) => {
+  return {
+    type: actionTypes.SET_MAP_ID_NAME_SPRINT,
+    mapIdName: map,
+  };
+};

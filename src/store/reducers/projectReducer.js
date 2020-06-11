@@ -9,6 +9,7 @@ const initialState = {
   fetchingProject: false,
   projects: null,
   project: null,
+  mapIdNameProject: null,
 };
 
 const deleteProject = (state, id) => {
@@ -90,6 +91,8 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.UPDATE_PROJECT:
       return updateProject(state, action);
+    case actionTypes.SET_MAP_ID_NAME_PROJECT:
+      return updateObject(state, { mapIdNameProject: action.mapIdName });
     default:
       return state;
   }

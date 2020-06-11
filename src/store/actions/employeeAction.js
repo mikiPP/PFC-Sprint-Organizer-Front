@@ -215,3 +215,10 @@ export const updateEmployeeSuccess = (employee) => {
     employee,
   };
 };
+
+export const setMapIdsNamesEmployee = (map) => {
+  return {
+    type: actionTypes.SET_MAP_ID_NAME_EMPLOYEE,
+    mapIdName: map,
+  };
+};

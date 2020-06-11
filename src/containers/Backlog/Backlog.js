@@ -223,7 +223,6 @@ class Backlog extends Component {
     formIsValid: true,
     formModalIsValid: false,
     tasks: null,
-    idsNameMap: null,
     show: false,
     modalTitle: null,
     creating: null,
@@ -273,12 +272,9 @@ class Backlog extends Component {
 
         const sprintMap = listToMap(sprintIds);
 
-        newState.idsNameMap = new Map([
-          ...employeesMap,
-          ...projectMap,
-          ...statusMap,
-          ...sprintMap,
-        ]);
+        this.props.setMapIdName(
+          new Map([...employeesMap, ...projectMap, ...statusMap, ...sprintMap]),
+        );
 
         newState.form.creator.elementConfig.options = [
           ...newState.form.creator.elementConfig.options,
@@ -474,7 +470,7 @@ class Backlog extends Component {
           loading={this.props.spinner}
           error={this.props.error}
           controlError={this.props.idsFetched}
-          idsNameMap={this.state.idsNameMap}
+          idsNameMap={this.props.mapIdNameTask}
           open={this.openTask}
         />
 
@@ -517,6 +513,7 @@ const mapStateToProps = (state) => {
     idsFetched: state.task.idsFetched,
     tasks: state.task.tasks,
     task: state.task.task,
+    mapIdNameTask: state.task.mapIdNameTask,
     error: state.task.error,
     fetchingTask: state.task.fetchingTask,
   };
@@ -529,6 +526,7 @@ const mapDispatchToProps = (dispatch) => {
     createTask: (task) => dispatch(actions.createTask(task)),
     fetchTaskById: (id) => dispatch(actions.fetchTaskById(id)),
     deleteTask: (id) => dispatch(actions.deleteTask(id)),
+    setMapIdName: (map) => dispatch(actions.setMapIdsNamesTask(map)),
     updateTask: (task, id) => dispatch(actions.updateTask(task, id)),
   };
 };

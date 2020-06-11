@@ -111,7 +111,6 @@ class Project extends Component {
     formIsValid: true,
     formModalIsValid: false,
     projects: null,
-    idsNameMap: null,
     show: false,
     modalTitle: null,
     creating: null,
@@ -145,7 +144,9 @@ class Project extends Component {
 
         const productOwnerMap = listToMap(productOwnerIds);
 
-        newState.idsNameMap = new Map([...scrumMasterMap, ...productOwnerMap]);
+        this.props.setMapIdName(
+          new Map([...scrumMasterMap, ...productOwnerMap]),
+        );
 
         newState.form.productOwner.elementConfig.options = [
           ...newState.form.productOwner.elementConfig.options,
@@ -294,7 +295,7 @@ class Project extends Component {
           loading={this.props.spinner}
           error={this.props.error}
           controlError={this.props.idsFetched}
-          idsNameMap={this.state.idsNameMap}
+          idsNameMap={this.props.mapIdsNames}
           open={this.openProject}
         />
 
@@ -336,6 +337,7 @@ const mapStateToProps = (state) => {
     spinner: state.project.spinner,
     idsFetched: state.project.idsFetched,
     projects: state.project.projects,
+    mapIdsNames: state.project.mapIdNameProject,
     project: state.project.project,
     error: state.project.error,
     fetchingProject: state.project.fetchingProject,
@@ -349,6 +351,7 @@ const mapDispatchToProps = (dispatch) => {
     createProject: (project) => dispatch(actions.createProject(project)),
     fetchProjectById: (id) => dispatch(actions.fetchProjectById(id)),
     deleteProject: (id) => dispatch(actions.deleteProject(id)),
+    setMapIdName: (map) => dispatch(actions.setMapIdsNames(map)),
     updateProject: (project, id) =>
       dispatch(actions.updateProject(project, id)),
   };

@@ -9,6 +9,7 @@ const initialState = {
   fetchingSprint: false,
   sprints: null,
   sprint: null,
+  mapIdNameSprint: null,
 };
 
 const deleteSprint = (state, id) => {
@@ -90,6 +91,8 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.UPDATE_SPRINT:
       return updateSprint(state, action);
+    case actionTypes.SET_MAP_ID_NAME_SPRINT:
+      return updateObject(state, { mapIdNameSprint: action.mapIdName });
     default:
       return state;
   }

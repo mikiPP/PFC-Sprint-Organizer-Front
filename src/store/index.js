@@ -6,6 +6,7 @@ export {
   fetchProjectById,
   deleteProject,
   updateProject,
+  setMapIdsNames,
 } from './actions/projectAction';
 export {
   fetchFormTaskIds,
@@ -14,6 +15,7 @@ export {
   fetchTaskById,
   deleteTask,
   updateTask,
+  setMapIdsNamesTask,
 } from './actions/taskAction';
 export {
   fetchFormSprintIds,
@@ -22,6 +24,7 @@ export {
   fetchSprintById,
   deleteSprint,
   updateSprint,
+  setMapIdsNamesSprint,
 } from './actions/sprintAction';
 export {
   fetchFormEmployeeIds,
@@ -30,6 +33,7 @@ export {
   fetchEmployeeById,
   deleteEmployee,
   updateEmployee,
+  setMapIdsNamesEmployee,
 } from './actions/employeeAction';
 export {
   fetchStatuses,

@@ -9,6 +9,7 @@ const initialState = {
   fetchingEmployee: false,
   employees: null,
   employee: null,
+  mapIdNameEmployee: null,
 };
 
 const deleteEmployee = (state, id) => {
@@ -90,6 +91,8 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.UPDATE_EMPLOYEE:
       return updateEmployee(state, action);
+    case actionTypes.SET_MAP_ID_NAME_EMPLOYEE:
+      return updateObject(state, { mapIdNameEmployee: action.mapIdName });
     default:
       return state;
   }

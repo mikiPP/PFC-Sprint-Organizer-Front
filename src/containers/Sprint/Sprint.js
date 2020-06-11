@@ -160,7 +160,6 @@ class Sprint extends Component {
     formIsValid: true,
     formModalIsValid: false,
     sprints: null,
-    idsNameMap: null,
     show: false,
     modalTitle: null,
     creating: null,
@@ -194,7 +193,7 @@ class Sprint extends Component {
 
         const statusMap = listToMap(statusIds);
 
-        newState.idsNameMap = new Map([...projectMap, ...statusMap]);
+        this.props.setMapIdNameSprint(new Map([...projectMap, ...statusMap]));
 
         newState.form.projectId.elementConfig.options = [
           ...newState.form.projectId.elementConfig.options,
@@ -362,7 +361,7 @@ class Sprint extends Component {
           loading={this.props.spinner}
           error={this.props.error}
           controlError={this.props.idsFetched}
-          idsNameMap={this.state.idsNameMap}
+          idsNameMap={this.props.mapIdNameSprint}
           open={this.openSprint}
         />
 
@@ -407,6 +406,7 @@ const mapStateToProps = (state) => {
     sprint: state.sprint.sprint,
     error: state.sprint.error,
     fetchingSprint: state.sprint.fetchingSprint,
+    mapIdNameSprint: state.sprint.mapIdNameSprint,
   };
 };
 
@@ -417,6 +417,7 @@ const mapDispatchToProps = (dispatch) => {
     createSprint: (sprint) => dispatch(actions.createSprint(sprint)),
     fetchSprintById: (id) => dispatch(actions.fetchSprintById(id)),
     deleteSprint: (id) => dispatch(actions.deleteSprint(id)),
+    setMapIdNameSprint: (map) => dispatch(actions.setMapIdsNamesSprint(map)),
     updateSprint: (sprint, id) => dispatch(actions.updateSprint(sprint, id)),
   };
 };
