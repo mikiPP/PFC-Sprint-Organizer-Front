@@ -1,4 +1,4 @@
-form div {
+.statusFilterContainer form div {
   display: flex !important;
   flex-direction: column;
   align-content: center;

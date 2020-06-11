@@ -175,19 +175,21 @@ class Status extends Component {
         <div className="title mt-4">
           <h1>Status</h1>
         </div>
-        <Filters
-          form={this.state.form}
-          callback={this.props.fetchStatuses}
-          formName="form"
-          formIsValidName="formIsValid"
-          inputChangedHandler={this.inputChangedHandlerForm}
-          checkValidity={checkValidity}
-          formValid={this.state.formIsValid}
-          onSubmit={filterHandler}
-          error={this.props.error}
-          controlError={this.props.idsFetched}
-          submitButton={true}
-        />
+        <div className={classes.statusFilterContainer}>
+          <Filters
+            form={this.state.form}
+            callback={this.props.fetchStatuses}
+            formName="form"
+            formIsValidName="formIsValid"
+            inputChangedHandler={this.inputChangedHandlerForm}
+            checkValidity={checkValidity}
+            formValid={this.state.formIsValid}
+            onSubmit={filterHandler}
+            error={this.props.error}
+            controlError={this.props.idsFetched}
+            submitButton={true}
+          />
+        </div>
         <Button
           className="btn btn-succeses float-right addButton"
           onClick={this.handleShow}
