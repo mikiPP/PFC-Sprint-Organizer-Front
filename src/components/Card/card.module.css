@@ -1,0 +1,9 @@
+.cardBody {
+  color: #0078bd;
+  border: solid 1px #0078bd;
+}
+
+.cardHeader {
+  color: white;
+  background-color: #0078bd;
+}
