@@ -11,6 +11,7 @@ import Employee from './containers/Employee/Employee';
 import Status from './containers/Status/Status';
 import Role from './containers/Role/Role';
 import Permission from './containers/Permission/Permission';
+import Imputation from './containers/Imputation/Imputation';
 
 class App extends Component {
   render() {
@@ -33,6 +34,7 @@ class App extends Component {
           <Route path="/status" component={Status}></Route>
           <Route path="/role" component={Role}></Route>
           <Route path="/permission" component={Permission}></Route>
+          <Route path="/imputation" component={Imputation}></Route>
           <Route path="/" exact component={Index}></Route>
           <Redirect to="/project" />
         </Switch>

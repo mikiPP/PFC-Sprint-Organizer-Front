@@ -13,6 +13,7 @@ import employeeReducer from './store/reducers/employeeReducer';
 import roleReducer from './store/reducers/roleReducer';
 import statusReducer from './store/reducers/statusReducer';
 import permissionReducer from './store/reducers/permissionReducer';
+import imputationReducer from './store/reducers/imputationReducer';
 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   role: roleReducer,
   status: statusReducer,
   permission: permissionReducer,
+  imputation: imputationReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

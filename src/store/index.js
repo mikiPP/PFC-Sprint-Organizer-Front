@@ -56,3 +56,12 @@ export {
   deletePermission,
   updatePermission,
 } from './actions/permissionAction';
+export {
+  fetchFormImputationIds,
+  fetchImputations,
+  createImputation,
+  fetchImputationById,
+  deleteImputation,
+  updateImputation,
+  setMapIdsNamesImputation,
+} from './actions/imputationAction';
