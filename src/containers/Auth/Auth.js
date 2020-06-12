@@ -97,6 +97,7 @@ class Auth extends Component {
     },
     loginFormIsValid: false,
     signUpFormIsValid: false,
+    logged: false,
     submited: false,
   };
 
@@ -137,6 +138,7 @@ class Auth extends Component {
   toogleForm = () => {
     const container = document.querySelector(`.${classes.divContainer}`);
     container.classList.toggle(classes.active);
+    this.setState({ logged: true });
   };
 
   loginHandler = (event) => {
@@ -146,6 +148,7 @@ class Auth extends Component {
       this.state.loginForm.email.value,
       this.state.loginForm.password.value,
     );
+    this.setState({ logged: true });
   };
 
   singUpHandler = (event) => {
@@ -358,7 +361,7 @@ class Auth extends Component {
       form = <Loader />;
     }
 
-    if (sessionStorage.getItem('logged')) {
+    if (sessionStorage.getItem('logged') && this.state.logged) {
       form = <Redirect to="/project"></Redirect>;
     }
 
