@@ -277,7 +277,6 @@ class Imputation extends Component {
 
     stateCloned[`${formName}IsValid`] = true;
     stateCloned.creating = false;
-    console.log(formValues);
 
     this.setState(stateCloned);
   };
