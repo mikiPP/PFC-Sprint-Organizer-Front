@@ -1,0 +1,24 @@
+.assigmentContainer {
+  /* display: grid;
+  grid-template-columns: repeat(2, auto); */
+}
+
+.objectKeys {
+  background-color: red;
+}
+
+.objectOptions {
+  background-color: seagreen;
+}
+
+.objectColumn {
+  width: 100%;
+}
+
+.key {
+  height: auto;
+}
+
+.droppable {
+  background-color: #dbe9ee;
+}

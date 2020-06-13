@@ -55,6 +55,11 @@ const modal = (props) => {
           )}
           {props.buttonText}
         </Button>
+        {props.assigment ? (
+          <Button className={classes.Button} onClick={props.assigmentFunction}>
+            Assigment{' '}
+          </Button>
+        ) : null}
       </Modal.Footer>
     </Modal>
   );

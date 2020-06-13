@@ -14,6 +14,7 @@ import {
 import Table from '../../components/Table/table';
 import Loader from '../../components/Loader/loader';
 import Modal from '../../components/Modal/modal';
+import { Redirect } from 'react-router-dom';
 
 class Project extends Component {
   state = {
@@ -116,6 +117,7 @@ class Project extends Component {
     creating: null,
     modalButtonText: '',
     callback: null,
+    redirect: false,
   };
 
   /** First request get all the employees with role Scrum master and the second one
@@ -265,6 +267,10 @@ class Project extends Component {
     );
   };
 
+  assigmentFunction = () => {
+    this.setState({ redirect: true });
+  };
+
   render() {
     let projectContainer = (
       <div>
@@ -316,6 +322,8 @@ class Project extends Component {
           loading={this.props.spinner}
           fetching={this.props.fetchingProject}
           deleteFunction={this.deleteProject}
+          assigment={true}
+          assigmentFunction={this.assigmentFunction}
         ></Modal>
       </div>
     );
@@ -324,6 +332,15 @@ class Project extends Component {
       projectContainer = (
         <div>
           <Loader />
+        </div>
+      );
+    }
+
+    if (this.state.redirect) {
+      this.setState({ redirect: false });
+      projectContainer = (
+        <div>
+          <Redirect to={`assigmentProject/${this.props.project._id}`} />
         </div>
       );
     }
