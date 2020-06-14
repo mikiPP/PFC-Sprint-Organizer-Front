@@ -101,6 +101,14 @@ class AssigmentProject extends Component {
       assigment = <Loader />;
     }
 
+    if (this.props.error) {
+      assigment = (
+        <div>
+          <h1>Something went wrong...</h1>
+        </div>
+      );
+    }
+
     return assigment;
   }
 }
@@ -109,6 +117,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.project.loading,
     project: state.project.project,
+    error: state.project.error,
   };
 };
 
