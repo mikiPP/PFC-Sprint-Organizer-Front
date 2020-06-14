@@ -17,39 +17,36 @@ import AssigmentSprint from './containers/AssigmentSprint/AssigmentSprint';
 
 class App extends Component {
   render() {
+    // let routes = (
+    //   <Switch>
+    //     <Route path="/auth" component={Auth}></Route>
+    //     <Route path="/" exact component={Index}></Route>
+    //     <Redirect to="/" />
+    //   </Switch>
+    // );
+
+    // if (sessionStorage.getItem('logged')) {
     let routes = (
       <Switch>
         <Route path="/auth" component={Auth}></Route>
+        <Route path="/project" component={Project}></Route>
+        <Route path="/backlog" component={Backlog}></Route>
+        <Route path="/sprint" component={Sprint}></Route>
+        <Route path="/employee" component={Employee}></Route>
+        <Route path="/status" component={Status}></Route>
+        <Route path="/role" component={Role}></Route>
+        <Route path="/permission" component={Permission}></Route>
+        <Route path="/imputation" component={Imputation}></Route>
+        <Route
+          path="/assigmentProject/:id"
+          component={AssigmentProject}
+        ></Route>
+        <Route path="/assigmentSprint/:id" component={AssigmentSprint}></Route>
         <Route path="/" exact component={Index}></Route>
-        <Redirect to="/" />
+        <Redirect to="/project" />
       </Switch>
     );
-
-    if (sessionStorage.getItem('logged')) {
-      routes = (
-        <Switch>
-          <Route path="/auth" component={Auth}></Route>
-          <Route path="/project" component={Project}></Route>
-          <Route path="/backlog" component={Backlog}></Route>
-          <Route path="/sprint" component={Sprint}></Route>
-          <Route path="/employee" component={Employee}></Route>
-          <Route path="/status" component={Status}></Route>
-          <Route path="/role" component={Role}></Route>
-          <Route path="/permission" component={Permission}></Route>
-          <Route path="/imputation" component={Imputation}></Route>
-          <Route
-            path="/assigmentProject/:id"
-            component={AssigmentProject}
-          ></Route>
-          <Route
-            path="/assigmentSprint/:id"
-            component={AssigmentSprint}
-          ></Route>
-          <Route path="/" exact component={Index}></Route>
-          <Redirect to="/project" />
-        </Switch>
-      );
-    }
+    // }
 
     return <div className="App">{routes}</div>;
   }
