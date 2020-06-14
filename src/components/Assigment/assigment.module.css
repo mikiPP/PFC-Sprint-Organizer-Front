@@ -1,8 +1,3 @@
-.assigmentContainer {
-  /* display: grid;
-  grid-template-columns: repeat(2, auto); */
-}
-
 .objectKeys {
   background-color: red;
 }
@@ -17,6 +12,8 @@
 
 .key {
   height: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .droppable {

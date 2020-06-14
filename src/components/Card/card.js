@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import classes from './card.module.css';
-import { Spinner } from 'react-bootstrap';
 
 const card = (props) => {
   return (

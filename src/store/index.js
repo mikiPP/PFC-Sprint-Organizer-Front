@@ -7,6 +7,8 @@ export {
   deleteProject,
   updateProject,
   setMapIdsNames,
+  fetchOptions,
+  updateAssigment,
 } from './actions/projectAction';
 export {
   fetchFormTaskIds,

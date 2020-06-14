@@ -221,3 +221,98 @@ export const setMapIdsNames = (map) => {
     mapIdName: map,
   };
 };
+
+export const fetchOptions = () => {
+  return (dispatch) => {
+    dispatch(fetchOptionsStart());
+    return axios
+      .post('/employee/filter', {
+        companyId: sessionStorage.getItem('companyId'),
+      })
+      .then((response) => {
+        return new Promise((resolve) => {
+          dispatch(fetchOptionsSuccess());
+          return resolve(response);
+        });
+      });
+  };
+};
+
+export const fetchOptionsStart = () => {
+  return {
+    type: actionTypes.FETCH_OPTIONS_START,
+  };
+};
+
+export const fetchOptionsSuccess = () => {
+  return {
+    type: actionTypes.FETCH_OPTIONS_SUCCESS,
+  };
+};
+
+export const updateAssigment = (
+  keys,
+  valuesToSend,
+  valuesToRemove,
+  idProject,
+) => {
+  return (dispatch) => {
+    console.log(valuesToSend, valuesToRemove);
+    dispatch(updateAssigmentStart());
+    return new Promise((resolve) =>
+      resolve(
+        [
+          keys.map((element, index) => {
+            return valuesToSend[index].map((object, innerIndex) => {
+              if (object) {
+                object.projects =
+                  object.projects === []
+                    ? [idProject]
+                    : [...object.projects, idProject];
+                return axios.put(
+                  `/employee/${valuesToSend[index][innerIndex]._id}`,
+                  object,
+                );
+              }
+              return null;
+            });
+          }),
+        ],
+        [
+          keys.map((element, index) => {
+            return valuesToRemove[index].map((object, innerIndex) => {
+              if (object) {
+                object.projects = object.projects.filter(
+                  (project) => project !== idProject,
+                );
+
+                return axios.put(
+                  `/employee/${valuesToRemove[index][innerIndex]._id}`,
+                  object,
+                );
+              }
+              return null;
+            });
+          }),
+        ],
+      ),
+    )
+      .then((result) => dispatch(updateAssigmentSuccess()))
+      .catch((err) => {
+        console.log(err);
+        return dispatch(fetchFail(err));
+      });
+  };
+};
+
+const updateAssigmentSuccess = () => {
+  return {
+    type: actionTypes.UPDATE_ASSIGMENT_SUCCESS,
+  };
+};
+
+const updateAssigmentStart = () => {
+  return {
+    type: actionTypes.UPDATE_ASSIGMENT_START,
+  };
+};

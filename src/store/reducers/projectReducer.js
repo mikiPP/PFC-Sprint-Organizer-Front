@@ -93,6 +93,12 @@ const reducer = (state = initialState, action) => {
       return updateProject(state, action);
     case actionTypes.SET_MAP_ID_NAME_PROJECT:
       return updateObject(state, { mapIdNameProject: action.mapIdName });
+    case actionTypes.FETCH_OPTIONS_START:
+    case actionTypes.UPDATE_ASSIGMENT_START:
+      return updateObject(state, { loading: true });
+    case actionTypes.FETCH_OPTIONS_SUCCESS:
+    case actionTypes.UPDATE_ASSIGMENT_SUCCESS:
+      return updateObject(state, { loading: false });
     default:
       return state;
   }
