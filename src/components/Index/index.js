@@ -54,7 +54,7 @@ const index = (props) => (
         <Col>
           <div className={clases.textContainer}>
             <h1>Sprint Organizer</h1>
-            <p> Our plan is to manage all the organization of your projects</p>
+            <p>Our goal is to make easier to manage all the projects for you</p>
           </div>
         </Col>
       </Row>
@@ -63,8 +63,8 @@ const index = (props) => (
       <Row>
         <Col>
           <div className={clases.textContainer}>
-            <h1>Sprint Organizer</h1>
-            <p> Our plan is to manage all the organization of your projects</p>
+            <h1>Be productive</h1>
+            <p> Focus in what to do instead of the management</p>
           </div>
         </Col>
         <Col className={clases.imgContainer}>
@@ -84,7 +84,9 @@ const index = (props) => (
         <Col>
           <div className={clases.textContainer}>
             <h1>Sprint Organizer</h1>
-            <p> Our plan is to manage all the organization of your projects</p>
+            <p>
+              manage the tasks,projects and sprints just dragging and dropping
+            </p>
           </div>
         </Col>
       </Row>
@@ -94,7 +96,7 @@ const index = (props) => (
         <Col>
           <div className={clases.textContainer}>
             <h1>Sprint Organizer</h1>
-            <p> Our plan is to manage all the organization of your projects</p>
+            <p> take the control of all that is happening in your projects</p>
           </div>
         </Col>
         <Col className={clases.imgContainer}>
