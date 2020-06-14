@@ -24,11 +24,11 @@ export const fetchFormEmployeeIds = () => {
   return (dispatch) => {
     dispatch(fetchIdsStart());
     return Promise.all([
-      axios.get(`/company/${sessionStorage.getItem('companyId')}`),
-      axios.post('/project/filter', {
+      axios.get(`company/${sessionStorage.getItem('companyId')}`),
+      axios.post('project/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/role/filter', {
+      axios.post('role/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
     ])

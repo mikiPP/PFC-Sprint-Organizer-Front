@@ -24,11 +24,11 @@ export const fetchIds = () => {
   return (dispatch) => {
     dispatch(fetchIdsStart());
     return Promise.all([
-      axios.post('/employee/filter', {
+      axios.post('employee/filter', {
         roleId: '5eda8a75d9fd3e0004253c7d',
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/employee/filter', {
+      axios.post('employee/filter', {
         roleId: '5eda8a88d9fd3e0004253c7e',
         companyId: sessionStorage.getItem('companyId'),
       }),
@@ -226,7 +226,7 @@ export const fetchOptions = () => {
   return (dispatch) => {
     dispatch(fetchOptionsStart());
     return axios
-      .post('/employee/filter', {
+      .post('employee/filter', {
         companyId: sessionStorage.getItem('companyId'),
       })
       .then((response) => {
@@ -278,7 +278,7 @@ export const updateAssigment = (
                     ? [idProject]
                     : [...object.projects, idProject];
                 return axios.put(
-                  `/employee/${valuesToSend[index][innerIndex]._id}`,
+                  `employee/${valuesToSend[index][innerIndex]._id}`,
                   object,
                 );
               }
@@ -295,7 +295,7 @@ export const updateAssigment = (
                 );
 
                 return axios.put(
-                  `/employee/${valuesToRemove[index][innerIndex]._id}`,
+                  `employee/${valuesToRemove[index][innerIndex]._id}`,
                   object,
                 );
               }

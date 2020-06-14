@@ -6,7 +6,7 @@
   },
   "proxies": {
     "/": {
-      "origin": "http://sprint-organizer-api.herokuapp.com"
+      "origin": "http://sprint-organizer-api.herokuapp.com/"
     }
   }
 }

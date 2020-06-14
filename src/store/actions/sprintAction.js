@@ -25,10 +25,10 @@ export const fetchFormSprintIds = () => {
   return (dispatch) => {
     dispatch(fetchIdsStart());
     return Promise.all([
-      axios.post('/project/filter', {
+      axios.post('project/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/status/filter', {
+      axios.post('status/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
     ])
@@ -49,7 +49,6 @@ export const fetchFormSprintIds = () => {
 
 export const fetchSprints = (filter) => {
   return (dispatch) => {
-    console.log(filter);
     dispatch(fetchSprintsStart());
     if (filter.startDate) {
       filter.startDate = {
@@ -251,13 +250,13 @@ export const fetchOptionsSprint = (id) => {
   return (dispatch) => {
     dispatch(fetchOptionsStart());
     return Promise.all([
-      axios.post('/employee/filter', {
+      axios.post('employee/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/task/filter', {
+      axios.post('task/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.get(`/sprint/${id}`, {
+      axios.get(`sprint/${id}`, {
         companyId: sessionStorage.getItem('companyId'),
       }),
     ])
@@ -316,7 +315,7 @@ export const updateAssigmentSprint = (
     });
 
     axios
-      .put(`/sprint/${sprint._id}`, sprint)
+      .put(`sprint/${sprint._id}`, sprint)
       .then((result) => dispatch(updateAssigmentSuccess()))
       .catch((err) => {
         console.log(err);

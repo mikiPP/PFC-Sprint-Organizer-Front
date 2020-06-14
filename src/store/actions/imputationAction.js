@@ -25,13 +25,13 @@ export const fetchFormImputationIds = () => {
   return (dispatch) => {
     dispatch(fetchIdsStart());
     return Promise.all([
-      axios.post('/employee/filter', {
+      axios.post('employee/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/task/filter', {
+      axios.post('task/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/sprint/filter', {
+      axios.post('sprint/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
     ])
