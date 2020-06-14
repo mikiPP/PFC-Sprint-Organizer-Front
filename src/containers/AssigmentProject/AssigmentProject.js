@@ -36,7 +36,7 @@ class AssigmentProject extends Component {
 
     if (componentId === key) {
       valuesToRemove = this.state.valuesToRemove;
-      if (valuesToRemove[0].length > 1) {
+      if (valuesToRemove[0].length > 0) {
         valuesToRemove[0] = this.state.valuesToRemove[0].filter((element) => {
           if (element._id !== elementId) {
             return true;
@@ -54,7 +54,7 @@ class AssigmentProject extends Component {
       valuesToSend[0].push(object);
     } else {
       valuesToSend = this.state.valuesToSend;
-      if (valuesToSend[0].length > 1) {
+      if (valuesToSend[0].length > 0) {
         valuesToSend[0] = this.state.valuesToSend[0].filter((element) => {
           if (element._id !== elementId) {
             return true;
@@ -103,8 +103,15 @@ class AssigmentProject extends Component {
 
     if (this.props.error) {
       assigment = (
-        <div>
-          <h1>Something went wrong...</h1>
+        <div className="invalid">
+          <h1>Something went wrong....</h1>
+          <p>{this.props.error}</p>
+          <button
+            className="btn btn-danger"
+            onClick={(event) => sessionStorage.clear()}
+          >
+            Click here to logOut
+          </button>
         </div>
       );
     }

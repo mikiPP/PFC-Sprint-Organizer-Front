@@ -234,7 +234,16 @@ export const fetchOptions = () => {
           dispatch(fetchOptionsSuccess());
           return resolve(response);
         });
-      });
+      })
+      .catch((err) =>
+        dispatch(
+          fetchFail(
+            err.response.statusText
+              ? err.response.statusText
+              : err.response.data.message,
+          ),
+        ),
+      );
   };
 };
 
@@ -257,7 +266,6 @@ export const updateAssigment = (
   idProject,
 ) => {
   return (dispatch) => {
-    console.log(valuesToSend, valuesToRemove);
     dispatch(updateAssigmentStart());
     return new Promise((resolve) =>
       resolve(
@@ -299,7 +307,7 @@ export const updateAssigment = (
     )
       .then((result) => dispatch(updateAssigmentSuccess()))
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         return dispatch(fetchFail(err));
       });
   };

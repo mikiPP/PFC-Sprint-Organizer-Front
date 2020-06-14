@@ -58,6 +58,7 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, {
         fetching: false,
         spinner: false,
+        loading: false,
         error: action.error,
         sprints: null,
       });
@@ -93,6 +94,12 @@ const reducer = (state = initialState, action) => {
       return updateSprint(state, action);
     case actionTypes.SET_MAP_ID_NAME_SPRINT:
       return updateObject(state, { mapIdNameSprint: action.mapIdName });
+    case actionTypes.FETCH_SPRINT_OPTIONS_START:
+    case actionTypes.UPDATE_SPRINT_ASSIGMENT_START:
+      return updateObject(state, { loading: true });
+    case actionTypes.FETCH_SPRINT_OPTIONS_SUCCESS:
+    case actionTypes.UPDATE_SPRINT_ASSIGMENT_SUCCESS:
+      return updateObject(state, { loading: false });
     default:
       return state;
   }

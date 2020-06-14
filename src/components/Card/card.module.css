@@ -7,3 +7,7 @@
   color: white;
   background-color: #0078bd;
 }
+
+.card {
+  max-height: 200px;
+}

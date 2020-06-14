@@ -68,7 +68,7 @@ class Assigment extends Component {
           </Row>
           {this.props.keys.map((key, index) => {
             return (
-              <Row className="mt-4" key={key}>
+              <Row className={['mt-4', classes.row].join(' ')} key={key}>
                 <Col
                   className={classes.key}
                   id={key}

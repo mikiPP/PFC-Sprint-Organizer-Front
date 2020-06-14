@@ -246,3 +246,93 @@ export const setMapIdsNamesSprint = (map) => {
     mapIdName: map,
   };
 };
+
+export const fetchOptionsSprint = (id) => {
+  return (dispatch) => {
+    dispatch(fetchOptionsStart());
+    return Promise.all([
+      axios.post('/employee/filter', {
+        companyId: sessionStorage.getItem('companyId'),
+      }),
+      axios.post('/task/filter', {
+        companyId: sessionStorage.getItem('companyId'),
+      }),
+      axios.get(`/sprint/${id}`, {
+        companyId: sessionStorage.getItem('companyId'),
+      }),
+    ])
+      .then(
+        (response) =>
+          new Promise((resolve) => {
+            dispatch(fetchOptionsSuccess());
+            return resolve(response);
+          }),
+      )
+      .catch((err) => {
+        return new Promise((reject) => {
+          dispatch(
+            fetchFail(
+              err.response.statusText
+                ? err.response.statusText
+                : err.response.data.message,
+            ),
+          );
+          return reject(err);
+        });
+      });
+  };
+};
+
+export const fetchOptionsStart = () => {
+  return {
+    type: actionTypes.FETCH_SPRINT_OPTIONS_START,
+  };
+};
+
+export const fetchOptionsSuccess = () => {
+  return {
+    type: actionTypes.FETCH_SPRINT_OPTIONS_SUCCESS,
+  };
+};
+
+export const updateAssigmentSprint = (
+  keys,
+  valuesToSend,
+  valuesToRemove,
+  sprint,
+) => {
+  return (dispatch) => {
+    dispatch(updateAssigmentStart());
+    valuesToSend.forEach((element, index) => {
+      sprint[`${keys[index]}s`] = [...sprint[`${keys[index]}s`], ...element];
+    });
+
+    valuesToRemove.forEach((element, index) => {
+      element.forEach((innerElement) => {
+        sprint[`${keys[index]}s`] = sprint[`${keys[index]}s`].filter(
+          (filter) => filter !== innerElement._id,
+        );
+      });
+    });
+
+    axios
+      .put(`/sprint/${sprint._id}`, sprint)
+      .then((result) => dispatch(updateAssigmentSuccess()))
+      .catch((err) => {
+        console.log(err);
+        return dispatch(fetchFail(err));
+      });
+  };
+};
+
+const updateAssigmentSuccess = () => {
+  return {
+    type: actionTypes.UPDATE_SPRINT_ASSIGMENT_SUCCESS,
+  };
+};
+
+const updateAssigmentStart = () => {
+  return {
+    type: actionTypes.UPDATE_SPRINT_ASSIGMENT_START,
+  };
+};

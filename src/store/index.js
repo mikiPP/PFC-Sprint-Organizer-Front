@@ -27,6 +27,8 @@ export {
   deleteSprint,
   updateSprint,
   setMapIdsNamesSprint,
+  fetchOptionsSprint,
+  updateAssigmentSprint,
 } from './actions/sprintAction';
 export {
   fetchFormEmployeeIds,

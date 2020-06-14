@@ -9,7 +9,7 @@ const card = (props) => {
       style={{ width: '18rem' }}
       draggable={props.draggable}
       id={props.id}
-      className="my-2 mx-2"
+      className={['my-2 mx-2', classes.card].join(' ')}
     >
       <Card.Header className={classes.cardHeader}>
         {props.cardHeader}

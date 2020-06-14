@@ -13,6 +13,7 @@ import Role from './containers/Role/Role';
 import Permission from './containers/Permission/Permission';
 import Imputation from './containers/Imputation/Imputation';
 import AssigmentProject from './containers/AssigmentProject/AssigmentProject';
+import AssigmentSprint from './containers/AssigmentSprint/AssigmentSprint';
 
 class App extends Component {
   render() {
@@ -39,6 +40,10 @@ class App extends Component {
           <Route
             path="/assigmentProject/:id"
             component={AssigmentProject}
+          ></Route>
+          <Route
+            path="/assigmentSprint/:id"
+            component={AssigmentSprint}
           ></Route>
           <Route path="/" exact component={Index}></Route>
           <Redirect to="/project" />

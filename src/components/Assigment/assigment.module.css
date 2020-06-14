@@ -1,11 +1,3 @@
-.objectKeys {
-  background-color: red;
-}
-
-.objectOptions {
-  background-color: seagreen;
-}
-
 .objectColumn {
   width: 100%;
 }
@@ -14,8 +6,13 @@
   height: auto;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .droppable {
   background-color: #dbe9ee;
+}
+
+.row {
+  border-bottom: 2px #0078bd solid;
 }

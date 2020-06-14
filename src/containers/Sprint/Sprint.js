@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
 import * as actions from '../../store/index';
 import Navbar from '../../components/Navbar/navbar';
@@ -165,6 +166,7 @@ class Sprint extends Component {
     creating: null,
     modalButtonText: '',
     callback: null,
+    redirect: false,
   };
 
   /** First request get all the employees with role Scrum master and the second one
@@ -314,6 +316,10 @@ class Sprint extends Component {
     );
   };
 
+  assigmentFunction = () => {
+    this.setState({ redirect: true });
+  };
+
   render() {
     let sprintContainer = (
       <div>
@@ -382,6 +388,8 @@ class Sprint extends Component {
           loading={this.props.spinner}
           fetching={this.props.fetchingSprint}
           deleteFunction={this.deleteSprint}
+          assigment={true}
+          assigmentFunction={this.assigmentFunction}
         ></Modal>
       </div>
     );
@@ -390,6 +398,15 @@ class Sprint extends Component {
       sprintContainer = (
         <div>
           <Loader />
+        </div>
+      );
+    }
+
+    if (this.state.redirect) {
+      this.setState({ redirect: false });
+      sprintContainer = (
+        <div>
+          <Redirect to={`assigmentSprint/${this.props.sprint._id}`} />
         </div>
       );
     }
