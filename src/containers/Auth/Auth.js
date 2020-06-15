@@ -141,14 +141,19 @@ class Auth extends Component {
     this.setState({ logged: true });
   };
 
-  loginHandler = (event) => {
+  loginHandler = async (event) => {
     event.preventDefault();
 
-    this.props.onLogin(
+    const response = await this.props.onLogin(
       this.state.loginForm.email.value,
       this.state.loginForm.password.value,
     );
-    this.setState({ logged: true });
+
+    if (response.status === 200) {
+      console.log('first');
+      this.setState({ logged: true });
+      sessionStorage.setItem('logged', true);
+    }
   };
 
   singUpHandler = (event) => {
@@ -361,8 +366,8 @@ class Auth extends Component {
       form = <Loader />;
     }
 
-    if (sessionStorage.getItem('logged') && this.state.logged) {
-      form = <Redirect to="/project"></Redirect>;
+    if (sessionStorage.getItem('logged') || this.state.logged) {
+      window.location.href = '/project';
     }
 
     return <div> {form} </div>;

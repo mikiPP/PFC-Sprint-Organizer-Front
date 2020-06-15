@@ -53,12 +53,13 @@ export const auth = (email, password) => {
   return (dispatch) => {
     dispatch(authStart());
     const data = { email, password };
-    axios
+    return axios
       .post('auth/login', data)
       .then((response) => {
         const data = decodeToken(response.data.token);
         addDataToLocalStorage(data, response.data.token);
         dispatch(authSuccess(data));
+        return response;
       })
       .catch((err) => {
         console.error(err);
@@ -88,5 +89,4 @@ function addDataToLocalStorage(data, token) {
   sessionStorage.setItem('userId', data.userId);
   sessionStorage.setItem('companyId', data.companyId);
   sessionStorage.setItem('name', data.name);
-  sessionStorage.setItem('logged', true);
 }
