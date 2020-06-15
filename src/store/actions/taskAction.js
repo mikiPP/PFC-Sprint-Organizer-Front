@@ -56,7 +56,7 @@ export const fetchTasks = (filter) => {
   return (dispatch) => {
     dispatch(fetchTasksStart());
     return axios
-      .post('task/filter', filter)
+      .post('/task/filter', filter)
       .then((result) => dispatch(fetchTasksSuccessfull(result.data.tasks)))
       .catch((err) =>
         dispatch(
@@ -87,7 +87,7 @@ export const createTask = (task) => {
   return (dispatch) => {
     dispatch(createTaskStart());
     return axios
-      .post('task/', task)
+      .post('/task/', task)
       .then((result) => dispatch(createTaskSuccess(result.data.task)))
       .catch((err) => {
         console.error(err);
@@ -119,7 +119,7 @@ export const fetchTaskById = (id) => {
   return (dispatch) => {
     dispatch(fetchTaskByIdStart());
     return axios
-      .get(`task/${id}`)
+      .get(`/task/${id}`)
       .then((result) => {
         dispatch(fetchTaskByIdSuccess(result.data.task));
         return new Promise((resolve) => resolve(result.data.task));
@@ -154,7 +154,7 @@ export const deleteTask = (id) => {
     dispatch(deleteTaskStart());
 
     return axios
-      .delete(`task/${id}`)
+      .delete(`/task/${id}`)
       .then(
         (result) =>
           new Promise((resolve) => resolve(dispatch(deleteTaskSuccess(id)))),
@@ -188,7 +188,7 @@ export const updateTask = (task, id) => {
   return (dispatch) => {
     dispatch(updateTaskStart());
     return axios
-      .put(`task/${id}`, task)
+      .put(`/task/${id}`, task)
       .then((result) => {
         return dispatch(updateTaskSuccess(result.data.task));
       })
