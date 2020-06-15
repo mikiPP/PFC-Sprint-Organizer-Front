@@ -25,10 +25,10 @@ export const fetchFormSprintIds = () => {
   return (dispatch) => {
     dispatch(fetchIdsStart());
     return Promise.all([
-      axios.post('/project/filter', {
+      axios.post('/api/project/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/status/filter', {
+      axios.post('/api/status/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
     ])
@@ -65,7 +65,7 @@ export const fetchSprints = (filter) => {
     }
 
     return axios
-      .post('/sprint/filter', filter)
+      .post('/api/sprint/filter', filter)
       .then((result) => {
         formatDate(result.data.sprints, 'DD-MM-YYYY');
         return dispatch(fetchSprintsSuccessfull(result.data.sprints));
@@ -99,7 +99,7 @@ export const createSprint = (sprint) => {
   return (dispatch) => {
     dispatch(createSprintStart());
     return axios
-      .post('/sprint/', sprint)
+      .post('/api/sprint/', sprint)
       .then((result) => dispatch(createSprintSuccess(result.data.sprint)))
       .catch((err) => {
         console.error(err);
@@ -131,7 +131,7 @@ export const fetchSprintById = (id) => {
   return (dispatch) => {
     dispatch(fetchSprintByIdStart());
     return axios
-      .get(`/sprint/${id}`)
+      .get(`/api/sprint/${id}`)
       .then((result) => {
         formatDate([result.data.sprint], 'YYYY-MM-DD');
         dispatch(fetchSprintByIdSuccess(result.data.sprint));
@@ -167,7 +167,7 @@ export const deleteSprint = (id) => {
     dispatch(deleteSprintStart());
 
     return axios
-      .delete(`/sprint/${id}`)
+      .delete(`/api/sprint/${id}`)
       .then(
         (result) =>
           new Promise((resolve) => resolve(dispatch(deleteSprintSuccess(id)))),
@@ -201,7 +201,7 @@ export const updateSprint = (sprint, id) => {
   return (dispatch) => {
     dispatch(updateSprintStart());
     return axios
-      .put(`/sprint/${id}`, sprint)
+      .put(`/api/sprint/${id}`, sprint)
       .then((result) => {
         formatDate([result.data.sprint], 'DD-MM-YYYY');
         return dispatch(updateSprintSuccess(result.data.sprint));
@@ -250,13 +250,13 @@ export const fetchOptionsSprint = (id) => {
   return (dispatch) => {
     dispatch(fetchOptionsStart());
     return Promise.all([
-      axios.post('/employee/filter', {
+      axios.post('/api/employee/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/task/filter', {
+      axios.post('/api/task/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.get(`/sprint/${id}`, {
+      axios.get(`/api/sprint/${id}`, {
         companyId: sessionStorage.getItem('companyId'),
       }),
     ])
@@ -315,7 +315,7 @@ export const updateAssigmentSprint = (
     });
 
     axios
-      .put(`/sprint/${sprint._id}`, sprint)
+      .put(`/api/sprint/${sprint._id}`, sprint)
       .then((result) => dispatch(updateAssigmentSuccess()))
       .catch((err) => {
         console.log(err);

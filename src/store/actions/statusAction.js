@@ -12,7 +12,7 @@ export const fetchStatuses = (filter) => {
   return (dispatch) => {
     dispatch(fetchStatusesStart());
     return axios
-      .post('/status/filter', filter)
+      .post('/api/status/filter', filter)
       .then((result) =>
         dispatch(fetchStatusesSuccesesfull(result.data.statuses)),
       )
@@ -45,7 +45,7 @@ export const createStatus = (status) => {
   return (dispatch) => {
     dispatch(createStatusStart());
     return axios
-      .post('/status/', status)
+      .post('/api/status/', status)
       .then((result) => dispatch(createStatusSucceses(result.data.status)))
       .catch((err) => {
         console.error(err);
@@ -77,7 +77,7 @@ export const fetchStatusById = (id) => {
   return (dispatch) => {
     dispatch(fetchStatusByIdStart());
     return axios
-      .get(`/status/${id}`)
+      .get(`/api/status/${id}`)
       .then((result) => {
         dispatch(fetchStatusByIdSucceses(result.data.status));
         return new Promise((resolve) => resolve(result.data.status));
@@ -112,7 +112,7 @@ export const deleteStatus = (id) => {
     dispatch(deleteStatusStart());
 
     return axios
-      .delete(`/status/${id}`)
+      .delete(`/api/status/${id}`)
       .then(
         (result) =>
           new Promise((resolve) => resolve(dispatch(deleteStatusSucceses(id)))),
@@ -146,7 +146,7 @@ export const updateStatus = (status, id) => {
   return (dispatch) => {
     dispatch(updateStatusStart());
     return axios
-      .put(`/status/${id}`, status)
+      .put(`/api/status/${id}`, status)
       .then((result) => {
         return dispatch(updateStatusSucceses(result.data.status));
       })

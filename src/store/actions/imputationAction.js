@@ -25,13 +25,13 @@ export const fetchFormImputationIds = () => {
   return (dispatch) => {
     dispatch(fetchIdsStart());
     return Promise.all([
-      axios.post('/employee/filter', {
+      axios.post('/api/employee/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/task/filter', {
+      axios.post('/api/task/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/sprint/filter', {
+      axios.post('/api/sprint/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
     ])
@@ -60,7 +60,7 @@ export const fetchImputations = (filter) => {
       };
     }
     return axios
-      .post('/imputation/filter', filter)
+      .post('/api/imputation/filter', filter)
       .then((result) => {
         formatDate(result.data.imputations, 'DD-MM-YYYY');
         return dispatch(fetchImputationsSuccessfull(result.data.imputations));
@@ -94,7 +94,7 @@ export const createImputation = (imputation) => {
   return (dispatch) => {
     dispatch(createImputationStart());
     return axios
-      .post('/imputation/', imputation)
+      .post('/api/imputation/', imputation)
       .then((result) =>
         dispatch(createImputationSuccess(result.data.imputation)),
       )
@@ -128,7 +128,7 @@ export const fetchImputationById = (id) => {
   return (dispatch) => {
     dispatch(fetchImputationByIdStart());
     return axios
-      .get(`/imputation/${id}`)
+      .get(`/api/imputation/${id}`)
       .then((result) => {
         const imputation = result.data.imputation;
         formatDate([imputation], 'YYYY-MM-DD');
@@ -165,7 +165,7 @@ export const deleteImputation = (id) => {
     dispatch(deleteImputationStart());
 
     return axios
-      .delete(`/imputation/${id}`)
+      .delete(`/api/imputation/${id}`)
       .then(
         (result) =>
           new Promise((resolve) =>
@@ -201,7 +201,7 @@ export const updateImputation = (imputation, id) => {
   return (dispatch) => {
     dispatch(updateImputationStart());
     return axios
-      .put(`/imputation/${id}`, imputation)
+      .put(`/api/imputation/${id}`, imputation)
       .then((result) => {
         const imputation = result.data.imputation;
         formatDate([imputation], 'DD-MM-YYYY');

@@ -12,7 +12,7 @@ export const fetchPermissions = (filter) => {
   return (dispatch) => {
     dispatch(fetchPermissionsStart());
     return axios
-      .post('/permission/filter', filter)
+      .post('/api/permission/filter', filter)
       .then((result) =>
         dispatch(fetchPermissionsSuccesesfull(result.data.permissions)),
       )
@@ -45,7 +45,7 @@ export const createPermission = (permission) => {
   return (dispatch) => {
     dispatch(createPermissionStart());
     return axios
-      .post('/permission/', permission)
+      .post('/api/permission/', permission)
       .then((result) =>
         dispatch(createPermissionSucceses(result.data.permission)),
       )
@@ -79,7 +79,7 @@ export const fetchPermissionById = (id) => {
   return (dispatch) => {
     dispatch(fetchPermissionByIdStart());
     return axios
-      .get(`/permission/${id}`)
+      .get(`/api/permission/${id}`)
       .then((result) => {
         dispatch(fetchPermissionByIdSucceses(result.data.permission));
         return new Promise((resolve) => resolve(result.data.permission));
@@ -114,7 +114,7 @@ export const deletePermission = (id) => {
     dispatch(deletePermissionStart());
 
     return axios
-      .delete(`/permission/${id}`)
+      .delete(`/api/permission/${id}`)
       .then(
         (result) =>
           new Promise((resolve) =>
@@ -150,7 +150,7 @@ export const updatePermission = (permission, id) => {
   return (dispatch) => {
     dispatch(updatePermissionStart());
     return axios
-      .put(`/permission/${id}`, permission)
+      .put(`/api/permission/${id}`, permission)
       .then((result) => {
         return dispatch(updatePermissionSucceses(result.data.permission));
       })

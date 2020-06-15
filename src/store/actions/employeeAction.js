@@ -24,11 +24,11 @@ export const fetchFormEmployeeIds = () => {
   return (dispatch) => {
     dispatch(fetchIdsStart());
     return Promise.all([
-      axios.get(`/company/${sessionStorage.getItem('companyId')}`),
-      axios.post('/project/filter', {
+      axios.get(`/api/company/${sessionStorage.getItem('companyId')}`),
+      axios.post('/api/project/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/role/filter', {
+      axios.post('/api/role/filter', {
         companyId: sessionStorage.getItem('companyId'),
       }),
     ])
@@ -51,7 +51,7 @@ export const fetchEmployees = (filter) => {
   return (dispatch) => {
     dispatch(fetchEmployeesStart());
     return axios
-      .post('/employee/filter', filter)
+      .post('/api/employee/filter', filter)
       .then((result) =>
         dispatch(fetchEmployeesSuccessfull(result.data.employees)),
       )
@@ -84,7 +84,7 @@ export const createEmployee = (employee) => {
   return (dispatch) => {
     dispatch(createEmployeeStart());
     return axios
-      .post('/employee/', employee)
+      .post('/api/employee/', employee)
       .then((result) => dispatch(createEmployeeSuccess(result.data.employee)))
       .catch((err) => {
         console.error(err);
@@ -116,7 +116,7 @@ export const fetchEmployeeById = (id) => {
   return (dispatch) => {
     dispatch(fetchEmployeeByIdStart());
     return axios
-      .get(`/employee/${id}`)
+      .get(`/api/employee/${id}`)
       .then((result) => {
         dispatch(fetchEmployeeByIdSuccess(result.data.employee));
         return new Promise((resolve) => resolve(result.data.employee));
@@ -151,7 +151,7 @@ export const deleteEmployee = (id) => {
     dispatch(deleteEmployeeStart());
 
     return axios
-      .delete(`/employee/${id}`)
+      .delete(`/api/employee/${id}`)
       .then(
         (result) =>
           new Promise((resolve) =>
@@ -187,7 +187,7 @@ export const updateEmployee = (employee, id) => {
   return (dispatch) => {
     dispatch(updateEmployeeStart());
     return axios
-      .put(`/employee/${id}`, employee)
+      .put(`/api/employee/${id}`, employee)
       .then((result) => {
         return dispatch(updateEmployeeSuccess(result.data.employee));
       })

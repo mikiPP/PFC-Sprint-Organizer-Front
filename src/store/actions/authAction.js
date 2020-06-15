@@ -19,7 +19,7 @@ export const signUp = (userData) => {
     dispatch(authStart());
     userData.companyId = '5ec57bd6a31f661b2411e7fc';
     axios
-      .post('/auth/signUp', userData)
+      .post('/api/auth/signUp', userData)
       .then((response) => {
         dispatch(signUpSuccess());
       })
@@ -54,7 +54,7 @@ export const auth = (email, password) => {
     dispatch(authStart());
     const data = { email, password };
     return axios
-      .post('/auth/login', data)
+      .post('/api/auth/login', data)
       .then((response) => {
         const data = decodeToken(response.data.token);
         addDataToLocalStorage(data, response.data.token);

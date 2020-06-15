@@ -24,11 +24,11 @@ export const fetchIds = () => {
   return (dispatch) => {
     dispatch(fetchIdsStart());
     return Promise.all([
-      axios.post('/employee/filter', {
+      axios.post('/api/employee/filter', {
         roleId: '5eda8a75d9fd3e0004253c7d',
         companyId: sessionStorage.getItem('companyId'),
       }),
-      axios.post('/employee/filter', {
+      axios.post('/api/employee/filter', {
         roleId: '5eda8a88d9fd3e0004253c7e',
         companyId: sessionStorage.getItem('companyId'),
       }),
@@ -52,7 +52,7 @@ export const fetchProjects = (filter) => {
   return (dispatch) => {
     dispatch(fetchProjectsStart());
     return axios
-      .post('/project/filter', filter)
+      .post('/api/project/filter', filter)
       .then((result) =>
         dispatch(fetchProjectsSuccessfull(result.data.projects)),
       )
@@ -85,7 +85,7 @@ export const createProject = (project) => {
   return (dispatch) => {
     dispatch(createProjectStart());
     return axios
-      .post('/project/', project)
+      .post('/api/project/', project)
       .then((result) => dispatch(createProjectSuccess(result.data.Project)))
       .catch((err) => {
         console.error(err);
@@ -117,7 +117,7 @@ export const fetchProjectById = (id) => {
   return (dispatch) => {
     dispatch(fetchProjectByIdStart());
     return axios
-      .get(`/project/${id}`)
+      .get(`/api/project/${id}`)
       .then((result) => {
         dispatch(fetchProjectByIdSuccess(result.data.project));
         return new Promise((resolve) => resolve(result.data.project));
@@ -152,7 +152,7 @@ export const deleteProject = (id) => {
     dispatch(deleteProjectStart());
 
     return axios
-      .delete(`/project/${id}`)
+      .delete(`/api/project/${id}`)
       .then(
         (result) =>
           new Promise((resolve) => resolve(dispatch(deleteProjectSuccess(id)))),
@@ -186,7 +186,7 @@ export const updateProject = (project, id) => {
   return (dispatch) => {
     dispatch(updateProjectStart());
     return axios
-      .put(`/project/${id}`, project)
+      .put(`/api/project/${id}`, project)
       .then((result) => {
         return dispatch(updateProjectSuccess(result.data.project));
       })
@@ -226,7 +226,7 @@ export const fetchOptions = () => {
   return (dispatch) => {
     dispatch(fetchOptionsStart());
     return axios
-      .post('/employee/filter', {
+      .post('/api/employee/filter', {
         companyId: sessionStorage.getItem('companyId'),
       })
       .then((response) => {
@@ -278,7 +278,7 @@ export const updateAssigment = (
                     ? [idProject]
                     : [...object.projects, idProject];
                 return axios.put(
-                  `/employee/${valuesToSend[index][innerIndex]._id}`,
+                  `/api/employee/${valuesToSend[index][innerIndex]._id}`,
                   object,
                 );
               }
@@ -295,7 +295,7 @@ export const updateAssigment = (
                 );
 
                 return axios.put(
-                  `/employee/${valuesToRemove[index][innerIndex]._id}`,
+                  `/api/employee/${valuesToRemove[index][innerIndex]._id}`,
                   object,
                 );
               }

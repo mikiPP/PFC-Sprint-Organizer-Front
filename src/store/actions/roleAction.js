@@ -12,7 +12,7 @@ export const fetchRoles = (filter) => {
   return (dispatch) => {
     dispatch(fetchRolesStart());
     return axios
-      .post('/role/filter', filter)
+      .post('/api/role/filter', filter)
       .then((result) => dispatch(fetchRolesSuccesesfull(result.data.roles)))
       .catch((err) =>
         dispatch(
@@ -43,7 +43,7 @@ export const createRole = (role) => {
   return (dispatch) => {
     dispatch(createRoleStart());
     return axios
-      .post('/role/', role)
+      .post('/api/role/', role)
       .then((result) => dispatch(createRoleSucceses(result.data.role)))
       .catch((err) => {
         console.error(err);
@@ -75,7 +75,7 @@ export const fetchRoleById = (id) => {
   return (dispatch) => {
     dispatch(fetchRoleByIdStart());
     return axios
-      .get(`/role/${id}`)
+      .get(`/api/role/${id}`)
       .then((result) => {
         dispatch(fetchRoleByIdSucceses(result.data.role));
         return new Promise((resolve) => resolve(result.data.role));
@@ -110,7 +110,7 @@ export const deleteRole = (id) => {
     dispatch(deleteRoleStart());
 
     return axios
-      .delete(`/role/${id}`)
+      .delete(`/api/role/${id}`)
       .then(
         (result) =>
           new Promise((resolve) => resolve(dispatch(deleteRoleSucceses(id)))),
@@ -144,7 +144,7 @@ export const updateRole = (role, id) => {
   return (dispatch) => {
     dispatch(updateRoleStart());
     return axios
-      .put(`/role/${id}`, role)
+      .put(`/api/role/${id}`, role)
       .then((result) => {
         return dispatch(updateRoleSucceses(result.data.role));
       })
