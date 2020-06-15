@@ -226,7 +226,7 @@ export const fetchOptions = () => {
   return (dispatch) => {
     dispatch(fetchOptionsStart());
     return axios
-      .post('employee/filter', {
+      .post('/employee/filter', {
         companyId: sessionStorage.getItem('companyId'),
       })
       .then((response) => {
@@ -278,7 +278,7 @@ export const updateAssigment = (
                     ? [idProject]
                     : [...object.projects, idProject];
                 return axios.put(
-                  `employee/${valuesToSend[index][innerIndex]._id}`,
+                  `/employee/${valuesToSend[index][innerIndex]._id}`,
                   object,
                 );
               }
