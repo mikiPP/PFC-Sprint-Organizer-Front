@@ -388,7 +388,7 @@ class Sprint extends Component {
           loading={this.props.spinner}
           fetching={this.props.fetchingSprint}
           deleteFunction={this.deleteSprint}
-          assigment={true}
+          assigment={this.state.callback === this.updateSprint}
           assigmentFunction={this.assigmentFunction}
         ></Modal>
       </div>

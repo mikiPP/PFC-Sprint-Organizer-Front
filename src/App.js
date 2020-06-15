@@ -26,7 +26,6 @@ class App extends Component {
     );
 
     if (sessionStorage.getItem('logged')) {
-      console.log('0');
       routes = (
         <Switch>
           <Route path="/auth" component={Auth}></Route>

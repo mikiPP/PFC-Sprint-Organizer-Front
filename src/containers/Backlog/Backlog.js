@@ -29,7 +29,7 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      project: {
+      projectId: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Project',
@@ -49,7 +49,7 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      creator: {
+      creatorId: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Creator',
@@ -59,7 +59,7 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      realizer: {
+      realizerId: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Realizer',
@@ -69,7 +69,7 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      sprint: {
+      sprintId: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Sprint',
@@ -79,7 +79,7 @@ class Backlog extends Component {
         valid: true,
         touched: false,
       },
-      status: {
+      statusId: {
         elementConfig: {
           elementType: 'select',
           label: 'Filter by Status',
@@ -276,27 +276,27 @@ class Backlog extends Component {
           new Map([...employeesMap, ...projectMap, ...statusMap, ...sprintMap]),
         );
 
-        newState.form.creator.elementConfig.options = [
-          ...newState.form.creator.elementConfig.options,
+        newState.form.creatorId.elementConfig.options = [
+          ...newState.form.creatorId.elementConfig.options,
           ...employeesIds,
         ];
 
-        newState.form.realizer.elementConfig.options = [
-          ...newState.form.realizer.elementConfig.options,
+        newState.form.realizerId.elementConfig.options = [
+          ...newState.form.realizerId.elementConfig.options,
           ...employeesIds,
         ];
 
-        newState.form.project.elementConfig.options = [
-          ...newState.form.project.elementConfig.options,
+        newState.form.projectId.elementConfig.options = [
+          ...newState.form.projectId.elementConfig.options,
           ...projectIds,
         ];
 
-        newState.form.status.elementConfig.options = [
-          ...newState.form.status.elementConfig.options,
+        newState.form.statusId.elementConfig.options = [
+          ...newState.form.statusId.elementConfig.options,
           ...statusIds,
         ];
-        newState.form.sprint.elementConfig.options = [
-          ...newState.form.sprint.elementConfig.options,
+        newState.form.sprintId.elementConfig.options = [
+          ...newState.form.sprintId.elementConfig.options,
           ...sprintIds,
         ];
 

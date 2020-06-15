@@ -322,7 +322,7 @@ class Project extends Component {
           loading={this.props.spinner}
           fetching={this.props.fetchingProject}
           deleteFunction={this.deleteProject}
-          assigment={true}
+          assigment={this.state.callback === this.updateProject}
           assigmentFunction={this.assigmentFunction}
         ></Modal>
       </div>

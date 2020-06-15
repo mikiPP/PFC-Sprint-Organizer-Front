@@ -6,7 +6,6 @@ import classes from './auth.module.css';
 import Loader from '../../components/Loader/loader';
 import * as actions from '../../store/index';
 import { Link, Redirect } from 'react-router-dom';
-import { checkValidity } from '../../Utils/componentUtils';
 
 class Auth extends Component {
   state = {
@@ -109,7 +108,7 @@ class Auth extends Component {
       ...updatedForm[inputIdentifier],
     };
     updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = checkValidity(
+    updatedFormElement.valid = this.checkValidity(
       updatedFormElement.value,
       updatedFormElement.validation,
     );
@@ -135,10 +134,50 @@ class Auth extends Component {
     }
   };
 
+  checkValidity(value, rules) {
+    let isValid = true;
+
+    if (!rules) {
+      return true;
+    }
+
+    if (rules.required) {
+      isValid = value.trim() !== '' && isValid;
+    }
+
+    if (rules.minLength) {
+      isValid = value.length >= rules.minLength && isValid;
+    }
+
+    if (rules.maxLength) {
+      isValid = value.length <= rules.maxLength && isValid;
+    }
+
+    if (rules.isEmail) {
+      const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      isValid = pattern.test(value) && isValid;
+    }
+
+    if (rules.isPassword) {
+      const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+      isValid = pattern.test(value) && isValid;
+    }
+
+    if (rules.isPasswordConfirm) {
+      isValid = value === this.state.signUpForm.password.value && isValid;
+    }
+
+    if (rules.isNumeric) {
+      const pattern = /^\d+$/;
+      isValid = pattern.test(value) && isValid;
+    }
+
+    return isValid;
+  }
+
   toogleForm = () => {
     const container = document.querySelector(`.${classes.divContainer}`);
     container.classList.toggle(classes.active);
-    this.setState({ logged: true });
   };
 
   loginHandler = async (event) => {
@@ -150,7 +189,6 @@ class Auth extends Component {
     );
 
     if (response.status === 200) {
-      console.log('first');
       this.setState({ logged: true });
       sessionStorage.setItem('logged', true);
     }
